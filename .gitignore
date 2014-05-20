@@ -1,0 +1,4 @@
+/sistac/logs/*
+/nbproject
+.settings/
+.buildpath
