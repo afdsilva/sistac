@@ -1,0 +1,14 @@
+==========================================
+EXEMPLOS DE CODIGOS EM SQL
+==========================================
+
+1. SELECT
+==================
+
+SELECT p.id, p.ano, p.semestre, u.cpf, u.nome AS aluno, c.nome AS curso, a.descricao AS atividade, a.unidadeAtividade, ca.nome AS categoria
+FROM pedido AS p
+JOIN usuario AS u ON p.codUsuario = u.cpf
+JOIN atividade AS a ON a.codPedido = p.id
+JOIN categoria AS ca ON ca.id = a.codCategoria
+JOIN curso AS c ON c.id = u.codCurso
+WHERE u.cpf = 01767688075
