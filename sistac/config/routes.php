@@ -41,7 +41,5 @@
 $route['default_controller'] = "frontpage";
 $route['404_override'] = '';
 
-$route['aluno'] = "aluno";
-
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

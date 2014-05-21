@@ -9,7 +9,10 @@
  */
 
 class CategoriaModel extends CI_Model {
-
+	//var $table = "categoria";
+	var $id = '';
+	var $nome = '';
+	
     public function __construct() {
         parent::__construct();
     }
@@ -23,7 +26,11 @@ class CategoriaModel extends CI_Model {
 
         return $this->db->get('categoria', $id)->row();
     }
-
+	
+    public function getCategoriaByName($nome) {
+    	return $this->db->get_where('categoria', array('nome' => $nome))->row();
+    }
+    
     public function inserirCategoria($categoria) {   
     }
 
