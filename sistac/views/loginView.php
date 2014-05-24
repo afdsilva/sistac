@@ -5,7 +5,7 @@
       <input type="text" name="username" style="width: 260px;"  value="" >
       <label>Password</label>
       <input type="password" name="password" style="width: 260px;">
-      <button type="submit" class="btn btn-primary">Login</button>
+      <a class="btn btn-primary" href="<?= base_url() ?>aluno">Login</a>
    </form>
 </div>
 

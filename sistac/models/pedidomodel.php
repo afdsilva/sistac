@@ -29,7 +29,6 @@ class PedidoModel extends CI_Model {
     		where('codUsuario', $codUsuario)->
     		where('id', $idPedido);
     	$data = $this->db->get()->row();
-
         return $data;
 
     }

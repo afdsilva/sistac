@@ -15,32 +15,11 @@ class Aluno extends CI_Controller {
     
     function index() {
         $data['pedido'] = $this->pedidomodel->getPedido('2', '01767688075');
-        echo $this->db->last_query();
         $this->load->view('include/header');
         $this->load->view('alunoView', $data);
         $this->load->view('include/footer');
     }
     
-    function getPedido(){
-        
-        //$data['pedido'] = $this->pedidomodel->getPedido(01767688075);
-        
-    }
-    
-    function enviarPedido(){
-        
-        
-    }
-    
-    function importarPedido(){
-        
-        
-    }
-    
-    function salvarPedido(){
-        
-        
-    }
     
     
 }

@@ -1,33 +1,24 @@
 
 <div class="container">
 
-    <div class="masthead">
-        <h3 class="text-muted">SISTAC - Sistema de Atividades Complementares</h3>
-        <ul class="nav nav-justified navbar-default">
-            <li><a href="frontpage">Home</a></li>
-            <li><a href="login">Login</a></li>
-            <li class="active"><a href="#enviarPedido" onclick="enviarPedido()">Enviar Pedido</a></li>
-            <li><a href="#editarPedido" onclick="editarPedido()">Editar Pedido</a></li>
-            <li><a href="#removerPedido">Remover Pedido</a></li>
-        </ul>
-    </div>
-
-    <div class="container">    
-        <section id="enviarPedido">
-            <div style="padding-top:55px"></div>
-
+    <div class="container">
+        
+            <div> <h1>Bem vindo <?= $pedido->nome; ?> </h1></div>
+            <hr>
+        
+        <section id="home">
+            
             <div class="jumbotron">
-                <h1 align="center">Upar pedido</h1>
-                <p align="center"><a class="btn btn-lg btn-success" href="" role="button">Escolher Arquivo</a></p>
+                <h2>Você ainda não fez o pedido de formatura.</h2>
+                <h2> <small>Importe o arquivo feito no SISTAC versão DESKTOP. </small></h2>
+                <p align="right"><a class="btn btn-lg btn-success" href="" role="button">Importar Pedido</a></p>
             </div>
         </section>
-    </div>
+
 
 
     <div class="container">    
-        <section id="editarPedido">
-            <div style="padding-top:55px"></div>
-
+        <section id="status">
             <form class="form-horizontal" method="POST">
                <fieldset>
                         <div class="control-group">
@@ -43,15 +34,7 @@
                             </div>
                         </div>
                         
-                   
-                        <ul>
-                            <?php //foreach($pedido as $pedido):?>
 
-                                <p><?php print_r($pedido); ?></p>
-
-                            <?php// endforeach;?>
-                        </ul>
-                        
                    
                 </fieldset>
 
@@ -62,27 +45,32 @@
             </form>
         </section>
     </div>
-
-    <section id="footer">
-        <div style='position: '>
-            <hr>
-            <p>LAMMA²</p>
-        </div>
-    </section>
-
+    </div>
 </div>
 <script>
 
-function enviarPedido(){
-    
-    $("#enviarPedido").show();
-    $("#editarPedido").hide();
+window.onload = function(){
+  init();
 }
 
-function editarPedido(){
+function init(){
+    var pedido = <?php echo json_encode($pedido->id); ?>;
+    if(pedido == null){
+        $("#status").hide();
+        $("#home").show();
+    } else {
+        $("#home").hide();
+        $("#status").show();
+        
+    }
     
-    $("#enviarPedido").hide();
-    $("#editarPedido").show();
+    
+}
+
+function status(){
+    
+    $("#home").hide();
+    $("#status").show();
 }
 
 
