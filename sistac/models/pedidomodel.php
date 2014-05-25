@@ -25,7 +25,7 @@ class PedidoModel extends CI_Model {
         return $this->db->get()->row();
 
     }
-
+    
     public function inserirPedido($pedido) {   
     }
 
