@@ -10,9 +10,9 @@ class Uploader extends CI_Controller {
 		$this->load->helper(array('form', 'url'));
 		$this->load->model('alunoModel', 'alunomodel');
 		$this->load->model('tipoAtividadeModel', 'tipoatividademodel');
-		$this->load->model('categoriaModel', 'categoriamodel');
+		$this->load->model('categoriaModel');
 		$this->load->model('atividadeModel', 'atividademodel');
-		$this->load->model('cursoModel', 'cursomodel');
+		$this->load->model('cursoModel');
 		$this->load->helper('html');
 	}
 	
@@ -46,7 +46,7 @@ class Uploader extends CI_Controller {
 			$json = json_decode($content);
 			$pedido['nome'] = $nome = $json->{'name'};
 			$pedido['codCurso'] = $codCurso = $json->{'cod'};
-			$pedido['nomeCurso'] = $nomeCurso = $this->cursomodel->getCurso($codCurso)->nome;
+			$pedido['nomeCurso'] = $nomeCurso = $this->cursoModel->getCurso($codCurso)->nome;
 			$atividades = $json->{'activity'};
 			$i = 0;
 			foreach ($atividades as $atividade) {
@@ -55,7 +55,7 @@ class Uploader extends CI_Controller {
 				$descricao = $atividade->{'description'};
 				$unidadeAtividade = $atividade->{'time'};
 				$rowTipoAtividade = $this->tipoatividademodel->getTipoAtividadeByName($tipoAtividade);
-				$rowCategoria =  $this->categoriamodel->getCategoriaByName($categoria);
+				$rowCategoria =  $this->categoriaModel->getCategoriaByName($categoria);
 				if ($rowTipoAtividade && $rowCategoria) {
 					$codTipoAtividade = $rowTipoAtividade->id;
 					$codCategoria = $rowCategoria->id;

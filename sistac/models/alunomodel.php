@@ -1,16 +1,14 @@
 <?php
 
 class AlunoModel extends CI_Model {
-
-   public function __construct() {
-      parent::__construct();
-   }
- 
-    public function getAluno($id) {
-
-        return $this->db->get('usuario', $id)->row();
+	
+	var $table = 'usuario';
+	
+	public function __construct() {
+		parent::__construct();
+	}
+	
+	public function getAluno($cpf) {
+		return $this->db->get_where($this->table, array('cpf' => $cpf))->row();
     }
-    
-    
-       
 }

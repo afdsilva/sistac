@@ -1,15 +1,6 @@
 <?php
-
-/*
- * Unit_model
- * An easier way to construct your unit testing
- * and pass it to a really nice looking page.
- *
- * @author sjlu
- */
-
 class CategoriaModel extends CI_Model {
-	//var $table = "categoria";
+	var $table = "categoria";
 	var $id = '';
 	var $nome = '';
 	
@@ -18,28 +9,15 @@ class CategoriaModel extends CI_Model {
     }
 
     public function getCategorias() {
-
-        return $this->db->get('categoria')->result();
+        return $this->db->get($this->table)->result();
     }
 
-    public function getCategoria($id) {
-
-        return $this->db->get('categoria', $id)->row();
+    public function getCategoria($idCategoria) {
+    	return $this->db->get_where($this->table, array('id' => $idCategoria))->row();
     }
 	
-    public function getCategoriaByName($nome) {
-    	return $this->db->get_where('categoria', array('nome' => $nome))->row();
-    }
-    
-    public function inserirCategoria($categoria) {   
-    }
-
-    public function editarCategoria($id) {
-        
-    }
-
-    public function removerCategoria($id) {
-        
+    public function getCategoriaByName($nomeCategoria) {
+    	return $this->db->get_where($this->table, array('nome' => $nomeCategoria))->row();
     }
 
 }

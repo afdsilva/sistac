@@ -6,8 +6,15 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="author" content="">
-
-        <title>Sistac</title>
+<?php 
+		$title = '';
+		if(isset($navigation)) {
+			foreach($navigation as $key => $nav)
+				if($key != 'aluno') $title = $title . " - ".$nav;
+				else  $title = $title . " - Aluno";
+		}
+?>
+        <title>Sistac <?php echo $title;?></title>
 
         <link href="<?php echo base_url('assets/css/bootstrap.css') ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/css/font-awesome.css') ?>" rel="stylesheet">
