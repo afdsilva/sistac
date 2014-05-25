@@ -6,6 +6,7 @@
       <label>Password</label>
       <input type="password" name="password" style="width: 260px;">
       <a class="btn btn-primary" href="<?= base_url() ?>aluno">Login</a>
+      <?php echo anchor("/aluno/index/01767688075","Login Provisorio");?>
    </form>
 </div>
 
