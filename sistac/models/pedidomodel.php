@@ -23,11 +23,13 @@ class PedidoModel extends CI_Model {
         
         //$q = $this->db->query('SELECT * FROM pedido AS p JOIN usuario AS u ON p.codUsuario = u.cpf WHERE u.cpf ='.$idPessoa);
         //$data = $q->result();
-    	$this->db->select('*')->
-    		from('pedido')->
-    		join('usuario ', 'usuario.cpf = pedido.codUsuario')->
+    	$this->db->select('p.id, s.nome as status, u.nome, u.email, a.*')->
+    		from('pedido as p')->
+    		join('usuario as u ', 'u.cpf = p.codUsuario')->
+                join('status as s', 'p.codStatus = s.id')->
+                join('atividade as a', 'p.id = a.codPedido')->
     		where('codUsuario', $codUsuario)->
-    		where('id', $idPedido);
+    		where('p.id', $idPedido);
     	$data = $this->db->get()->row();
         return $data;
 

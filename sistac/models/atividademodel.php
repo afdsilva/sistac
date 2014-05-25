@@ -11,4 +11,14 @@ class AtividadeModel extends CI_Model {
         return $this->db->get('atividade', $id, $pedido)->row();
     }
     
+    public function getAtividades($idPedido){
+
+        $this->db->select('*')->
+    		from('atividade as a')->
+    		where('a.codPedido', $idPedido);
+    	$data = $this->db->get()->result_array();
+        return $data;
+        
+    }
+    
 }
