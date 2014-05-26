@@ -15,27 +15,21 @@ class PedidoModel extends CI_Model {
         return $this->db->get()->result();
 
     }
-    public function getPedido($idPedido, $codUsuario) {
+    public function getPedido($codUsuario) {
         
     	$this->db->select('*')->
     		from('pedido')->
     		join('usuario ', 'usuario.cpf = pedido.codUsuario')->
-    		where('codUsuario', $codUsuario)->
-    		where('id', $idPedido);
+    		where('codUsuario', $codUsuario);
         return $this->db->get()->row();
-
     }
     
-    public function inserirPedido($pedido) {   
-    }
-
-    public function editarPedido($id) {
+    public function getPedidoById($idPedido){
+       $this->db->select('*')->
+    		from('pedido as p')->
+    		join('usuario ', 'usuario.cpf = p.codUsuario')->
+    		where('p.id', $idPedido);
+        return $this->db->get()->row(); 
         
     }
-
-    public function removerPedido($id) {
-        
-    }
-
-    
 }

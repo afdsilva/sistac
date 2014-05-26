@@ -9,6 +9,9 @@
 	#This last condition enables access to the images and css folders, and the robots.txt file
 	RewriteCond $1 !^(index\.php|public|images|robots\.txt|css)
 	RewriteRule ^(.*)$ /sistac/index.php/$1 [L]
+
+        #Mudando o tamanho do aquivo de upload
+        php_value upload_max_filesize 20M
 </IfModule>
 
 <IfModule !mod_rewrite.c>
