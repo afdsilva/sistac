@@ -16,6 +16,7 @@ class Aluno extends CI_Controller {
         $this->load->model('atividadeModel');
         $this->load->model('tipoAtividadeModel');
         $this->load->model('categoriaModel');
+        $this->load->helper('file');
     }
 
     function index($id = '') {
@@ -172,16 +173,17 @@ class Aluno extends CI_Controller {
         }
     }
 
-    public function upCertificado(){
-        
+    public function upCertificado() {
+
         $idAtividade = $this->input->post('cmbAtividade');
         $idPedido = $this->input->post('idPedido');
-        
+
         $config['upload_path'] = './arquivos/';
         $config['allowed_types'] = 'jpg|png|pdf';
         $config['max_size'] = '20000';
         $config['file_name'] = 'certificado' . $idPedido . $idAtividade;
-        
+        $config['encrypt_name'] = true;
+
         $this->load->library('upload', $config);
 
         if (!$this->upload->do_upload()) {
@@ -201,4 +203,18 @@ class Aluno extends CI_Controller {
         $name = 'sistac';
         force_download($name, $data);
     }
+
+    public function removerCertificado() {
+        $idPedido = $_POST['idPedido'];
+        $idAtividade = $_POST['idAtividade'];
+        $file = $this->atividadeModel->getAtividade($idAtividade, $idPedido)->arquivoURL;
+        $this->atividadeModel->removerCertificado($idPedido, $idAtividade);
+        
+        if (unlink('/var/www/sistac/arquivos/'.$file)) {
+            return 'deleted successfully';
+        } else {
+            return 'errors occured';
+        }
+    }
+
 }

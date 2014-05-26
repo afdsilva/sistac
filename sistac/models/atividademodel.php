@@ -14,8 +14,9 @@ class AtividadeModel extends CI_Model {
     			$this->table.unidadeAtividade, 
     			$this->table.codTipoAtividade,
                         $this->table.arquivoURL,
+                        $this->table.codPedido,    
     			tipoAtividade.nome as tipoAtividade, 
-    			$this->table.codCategoria, 
+    			$this->table.codCategoria,
     			categoria.nome as categoria")->
                 from($this->table)->
                 join('tipoAtividade', "tipoAtividade.id = $this->table.codTipoAtividade")->
@@ -25,7 +26,12 @@ class AtividadeModel extends CI_Model {
     }
 
     public function getAtividade($idAtividade, $idPedido) {
-        $this->db->select("$this->table.id, $this->table.descricao, $this->table.unidadeAtividade, $this->table.codTipoAtividade, tipoAtividade.nome, $this->table.codCategoria, categoria.nome")->
+        $this->db->select("$this->table.id, "
+                . "$this->table.descricao, "
+                . "$this->table.unidadeAtividade, "
+                . "$this->table.codTipoAtividade, tipoAtividade.nome, "
+                . "$this->table.codCategoria, categoria.nome,"
+                . "$this->table.arquivoURL")->
                 from($this->table)->
                 join('tipoAtividade', "tipoAtividade.id = $this->table.codTipoAtividade")->
                 join('categoria', "categoria.id = $this->table.codCategoria")->
@@ -49,11 +55,18 @@ class AtividadeModel extends CI_Model {
 
     function setArquivoURL($idPedido, $idAtividade, $arquivoURL) {
 
-            $data = array('arquivoURL' => $arquivoURL);
-            $this->db->where('id', $idAtividade);
-            $this->db->where('codPedido', $idPedido);
-            $this->db->update('atividade', $data);
+        $data = array('arquivoURL' => $arquivoURL);
+        $this->db->where('id', $idAtividade);
+        $this->db->where('codPedido', $idPedido);
+        $this->db->update('atividade', $data);
+    }
 
+    function removerCertificado($idPedido, $idAtividade) {
+
+        $data = array('arquivoURL' => NULL);
+        $this->db->where('id', $idAtividade);
+        $this->db->where('codPedido', $idPedido);
+        $this->db->update('atividade', $data);
     }
 
 }

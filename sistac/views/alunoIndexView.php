@@ -67,15 +67,14 @@
                                     $atividade->unidadeAtividade,
                                     $atividade->tipoAtividade,
                                     $atividade->categoria,
-                                    form_button(array('name' => 'downloadCertificado', 'type' => 'button', 'class' => 'btn btn-default', 'value' => $atividade->id), 'Download', 'onClick="downloadArquivo( \''.$atividade->arquivoURL. ' \')"'),
-                                    form_button(array('name' => 'removerAtividade', 'type' => 'button', 'class' => 'btn btn-default', 'value' => $atividade->id), 'Remover', 'onClick="removerArquivo()"')
+                                    form_button(array('name' => 'downloadCertificado', 'type' => 'button', 'class' => 'btn btn-default', 'value' => $atividade->id), 'Download', 'onClick="downloadArquivo(\''.$atividade->arquivoURL. ' \')"'),
+                                    form_button(array('name' => 'removerAtividade', 'type' => 'button', 'class' => 'btn btn-default', 'value' => $atividade->id), 'Remover', 'onClick="removerCertificado(\''.$atividade->id .','. $atividade->codPedido .'\')"')
                                 ));
                         }
                         echo $this->table->generate();
                         ?>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -94,14 +93,16 @@
         
     }
 
-    function removerArquivo() {
+    function removerCertificado(parametros) {
         $.post('<?= base_url() ?>aluno/removerCertificado',
                 {
-                    arquivoURL: "<?php echo $atividade->arquivoURL; ?>"
+                    idAtividade: parametros[0],
+                    idPedido: parametros[2]
                 },
         function(data) {
-            alert('Certificado Removido com sucesso');
-        });
+            alert(data);
+            window.location.reload();
+    });
 
     }
 </script>    
