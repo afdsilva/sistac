@@ -12,8 +12,8 @@
             $this->table->set_template(array('table_open' => '<table class="table table-hover">'));
             $this->table->set_heading(array('Cod', 'Ano', 'Semestre', 'Ações'));
             $this->table->add_row(array(
-                $pedido->id,$pedido->id,
-                $pedido->ano,$pedido->ano,
+                $pedido->id,
+                $pedido->ano,
                 $pedido->semestre,
                 form_button(array('name' => 'editar', 'type' => 'submit', 'class' => 'btn btn-default', 'value' => $pedido->id), 'Editar', 'onClick=') . nbs(2) .
                 form_button(array('name' => 'remover', 'type' => 'submit', 'class' => 'btn btn-default', 'value' => $pedido->id), 'Remover')));

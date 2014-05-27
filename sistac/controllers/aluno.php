@@ -25,7 +25,7 @@ class Aluno extends CI_Controller {
         $this->navigation['navigation']['aluno'] = $aluno->nome;
         $this->data['aluno'] = $aluno;
         $this->data['pedido'] = $this->pedidoModel->getPedido($idAluno);
-        $idPedido = isset($this->data['pedido']->id,$this->data['pedido']->id);
+        $idPedido = (isset($this->data['pedido']->id) ? $this->data['pedido']->id : '');
         
         if (!$idPedido) {
         	$idPedido = $this->pedidoModel->insertNovoPedido($idAluno);
@@ -92,7 +92,7 @@ class Aluno extends CI_Controller {
             //$this->data['categorias'] = $this->categoriaModel->getCategorias();
             $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
 
-            //echo $this->db->last_query();
+            echo $this->db->last_query();
             if (!$this->data['pedido'])
                 redirect('/aluno/', 'refresh');
             $this->load->view('include/navigation', $this->navigation);
