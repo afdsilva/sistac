@@ -39,6 +39,7 @@ class Login extends CI_Controller {
       			break;
       		case 4:
       			echo "Aluno";
+      			redirect('aluno', 'refresh');
       			break;
       		default:
       			redirect($this->index());

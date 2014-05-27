@@ -20,26 +20,17 @@ class Aluno extends CI_Controller {
     }
 
     function index($id = '') {
-        //login teste
-        if ($id) {
-            $aluno = $this->alunoModel->getAluno($id);
-            //print_r($aluno);
-            //return;
-            if ($aluno) {
-                $this->session->set_userdata('idAluno', $aluno->cpf);
-                redirect('/aluno/', 'refresh');
-            } else
-                redirect('/login/', 'refresh');
-        }
-        if (!($idAluno = $this->session->userdata('idAluno')))
-            redirect('/login/', 'refresh');
+    	if (!($idAluno = $this->session->userdata('user')->cpf)) redirect('/login/', 'refresh');
+    	
         $aluno = $this->alunoModel->getAluno($idAluno);
         $this->navigation['navigation']['aluno'] = $aluno->nome;
-        if (!$this->session->userdata('idAluno'))
-            redirect('/login/', 'refresh');
         $this->data['aluno'] = $aluno;
         $this->data['pedido'] = $this->pedidoModel->getPedido($idAluno);
-        $this->data['atividades'] = $this->atividadeModel->getAtividades($this->data['pedido']->id);
+        $idPedido = '';
+        if ($this->data['pedido']) $idPedido = $this->data['pedido']->id;
+        
+        echo $this->db->last_query();
+        $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
         //monta view
         $this->load->view('include/header', $this->navigation);
         $this->load->view('include/navigation', $this->navigation);
@@ -48,11 +39,11 @@ class Aluno extends CI_Controller {
     }
 
     function pedido($idPedido = '', $acao = '', $idAcao = '') {
-
+    	
+    	if (!($idAluno = $this->session->userdata('user')->cpf)) redirect('/login/', 'refresh');
+    	 
         $this->navigation['navigation']['pedido'] = 'Pedido';
 
-        if (!($idAluno = $this->session->userdata('idAluno')))
-            redirect('/login/', 'refresh');
         $aluno = $this->alunoModel->getAluno($idAluno);
         $this->navigation['navigation']['aluno'] = $aluno->nome;
         //redireciona para url de edicao de pedidos
@@ -85,7 +76,7 @@ class Aluno extends CI_Controller {
             $this->load->view('alunoPedidoNovoView', $this->data);
         } else {
             $this->navigation['navigation'][$idPedido] = $idPedido;
-            $this->data['pedido'] = $this->pedidoModel->getPedido($idPedido, $idAluno);
+            $this->data['pedido'] = $this->pedidoModel->getPedido($idAluno);
             $tipoAtividades = $this->tipoAtividadeModel->getTipoAtividades();
             $this->data['tipoAtividades'][0] = "Selecione um Tipo de Atividade";
             foreach ($tipoAtividades as $tipoAtividade) {
