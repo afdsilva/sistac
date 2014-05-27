@@ -68,5 +68,7 @@ class AtividadeModel extends CI_Model {
         $this->db->where('codPedido', $idPedido);
         $this->db->update('atividade', $data);
     }
-
+	function getLastIdAtividade($idPedido) {
+		return $this->db->select_max('id')->where('codPedido', $idPedido)->get('atividade')->row() + 1;
+	}
 }

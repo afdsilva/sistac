@@ -1,7 +1,7 @@
 <?php
 
 class PedidoModel extends CI_Model {
-
+	var $table = 'pedido';
     public function __construct() {
         parent::__construct();
     }
@@ -31,5 +31,20 @@ class PedidoModel extends CI_Model {
     		where('p.id', $idPedido);
         return $this->db->get()->row(); 
         
+    }
+    public function insertNovoPedido($idUsuario) {
+    	
+    	$nextId = $this->db->select_max('id')->where('codUsuario', $idUsuario)->get('pedido')->row()->id + 1;
+    	$semestre = (date('M') > 6 ? 2 : 1);
+    	$ano = date('Y');
+    	$data = array(
+    			'id' => $nextId, 
+    			'ano' => $ano, 
+    			'semestre' => $semestre, 
+    			'codUsuario' => $idUsuario, 
+    			'codStatus' => '1'
+    	);
+    	$this->db->insert($this->table, $data);
+    	return $nextId;
     }
 }

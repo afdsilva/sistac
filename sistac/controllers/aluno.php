@@ -21,15 +21,17 @@ class Aluno extends CI_Controller {
 
     function index($id = '') {
     	if (!($idAluno = $this->session->userdata('user')->cpf)) redirect('/login/', 'refresh');
-    	
         $aluno = $this->alunoModel->getAluno($idAluno);
         $this->navigation['navigation']['aluno'] = $aluno->nome;
         $this->data['aluno'] = $aluno;
         $this->data['pedido'] = $this->pedidoModel->getPedido($idAluno);
-        $idPedido = '';
-        if ($this->data['pedido']) $idPedido = $this->data['pedido']->id;
+        $idPedido = isset($this->data['pedido']->id,$this->data['pedido']->id);
         
-        echo $this->db->last_query();
+        if (!$idPedido) {
+        	$idPedido = $this->pedidoModel->insertNovoPedido($idAluno);
+    		$this->data['pedido'] = $this->pedidoModel->getPedido($idAluno);
+        	//return ;
+        }
         $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
         //monta view
         $this->load->view('include/header', $this->navigation);
