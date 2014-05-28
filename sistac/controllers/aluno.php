@@ -10,7 +10,7 @@ class Aluno extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('alunoModel'); //me expliquem depois pq $this->load->model('alunoModel','alunomodel')... 
+        $this->load->model('alunoModel');
         $this->load->model('cursoModel');
         $this->load->model('pedidoModel');
         $this->load->model('atividadeModel');
@@ -20,30 +20,28 @@ class Aluno extends CI_Controller {
     }
 
     function index($id = '') {
-    	if (!($idAluno = $this->session->userdata('user')->cpf)) redirect('/login/', 'refresh');
+        if (!($idAluno = $this->session->userdata('user')->cpf))
+            redirect('/login/', 'refresh');
         $aluno = $this->alunoModel->getAluno($idAluno);
         $this->navigation['navigation']['aluno'] = $aluno->nome;
         $this->data['aluno'] = $aluno;
-        $this->data['pedido'] = $this->pedidoModel->getPedido($idAluno);
+        $this->data['pedidos'] = $this->pedidoModel->getPedidos($idAluno);
         $idPedido = (isset($this->data['pedido']->id) ? $this->data['pedido']->id : '');
-        
-        if (!$idPedido) {
-        	$idPedido = $this->pedidoModel->insertNovoPedido($idAluno);
-    		$this->data['pedido'] = $this->pedidoModel->getPedido($idAluno);
-        	//return ;
-        }
         $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
-        //monta view
+
+        // monta view
+        //==============================================================
         $this->load->view('include/header', $this->navigation);
         $this->load->view('include/navigation', $this->navigation);
-        $this->load->view('alunoIndexView', $this->data);
+        $this->load->view('aluno/alunoView', $this->data);
         $this->load->view('include/footer');
     }
 
     function pedido($idPedido = '', $acao = '', $idAcao = '') {
-    	
-    	if (!($idAluno = $this->session->userdata('user')->cpf)) redirect('/login/', 'refresh');
-    	 
+
+        if (!($idAluno = $this->session->userdata('user')->cpf))
+            redirect('/login/', 'refresh');
+
         $this->navigation['navigation']['pedido'] = 'Pedido';
 
         $aluno = $this->alunoModel->getAluno($idAluno);
@@ -68,14 +66,15 @@ class Aluno extends CI_Controller {
             redirect('/aluno/pedido/' . $idPedido, 'refresh');
         }
 
-        //monta view
+        // monta view
+        //==============================================================
         $this->load->view('include/header', $this->navigation);
 
         $this->data['aluno'] = $this->alunoModel->getAluno($idAluno);
         if ($idPedido == 'novo') {
             $this->navigation['navigation']['novo'] = 'Novo';
             $this->load->view('include/navigation', $this->navigation);
-            $this->load->view('alunoPedidoNovoView', $this->data);
+            $this->load->view('aluno/alunoPedidoNovoView', $this->data);
         } else {
             $this->navigation['navigation'][$idPedido] = $idPedido;
             $this->data['pedido'] = $this->pedidoModel->getPedido($idAluno);
@@ -92,20 +91,21 @@ class Aluno extends CI_Controller {
             //$this->data['categorias'] = $this->categoriaModel->getCategorias();
             $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
 
-            echo $this->db->last_query();
             if (!$this->data['pedido'])
                 redirect('/aluno/', 'refresh');
             $this->load->view('include/navigation', $this->navigation);
-            $this->load->view('alunoPedidoView', $this->data);
+            $this->load->view('aluno/alunoPedidoEditarView', $this->data);
         }
 
         $this->load->view('include/footer');
     }
 
     function uploadPedido() {
+
         $config['allowed_types'] = '*';
         $config['upload_path'] = './uploads/';
         $this->load->library('upload', $config);
+
         if (!$this->upload->do_upload('uploadPedido')) {
             $error = array('error' => $this->upload->display_errors());
             print_r($error);
@@ -117,56 +117,63 @@ class Aluno extends CI_Controller {
             $fileSize = $upload_data['file_size'];
             $fp = fopen($tmpName, 'r');
             $content = fread($fp, filesize($tmpName));
-            //$content = addslashes($content);
             fclose($fp);
             unlink($tmpName);
-
             $json = json_decode($content);
-            $pedido['nome'] = $nome = $json->{'name'};
+            $idPedido = $this->pedidoModel->insertNovoPedido($this->input->post('codUsuario'));
             $pedido['codCurso'] = $codCurso = $json->{'cod'};
+            echo $codCurso;
             $curso = $this->cursoModel->getCurso($codCurso);
+
             if ($curso)
                 $pedido['nomeCurso'] = $this->cursoModel->getCurso($codCurso)->nome;
             $atividades = $json->{'activity'};
-            $i = 0;
-            $idPedido = $this->input->post('idPedido');
-
+            $i = 1;
             foreach ($atividades as $atividade) {
                 $tipoAtividade = $atividade->{'typeOfActivity'};
                 $categoria = $atividade->{'category'};
                 $descricao = $atividade->{'description'};
                 $unidadeAtividade = $atividade->{'time'};
-                $rowTipoAtividade = $this->tipoAtividadeModel->getTipoAtividadeByName($tipoAtividade);
-                $rowCategoria = $this->categoriaModel->getCategoriaByName($categoria);
-                if ($rowTipoAtividade && $rowCategoria) {
-                    $codTipoAtividade = $rowTipoAtividade->id;
-                    $codCategoria = $rowCategoria->id;
-                    $pedido['atividades'][$i]['descricao'] = $descricao;
-                    $pedido['atividades'][$i]['arquivoURL'] = '';
-                    $pedido['atividades'][$i]['unidadeAtividade'] = $unidadeAtividade;
-                    $pedido['atividades'][$i]['codTipoAtividade'] = $codTipoAtividade;
-                    $pedido['atividades'][$i]['nomeTipoAtividade'] = $rowTipoAtividade->nome;
-                    $pedido['atividades'][$i]['codCategoria'] = $codCategoria;
-                    $pedido['atividades'][$i]['nomeCategoria'] = $rowCategoria->nome;
-                    $i++;
-                    $lastIdAtividade = $this->db->select_max('id')->where('codPedido', $idPedido)->get('atividade')->row();
-                    //echo $this->db->last_query();
-                    $insert = array(
-                        'id' => $lastIdAtividade->id + 1,
-                        'codPedido' => $idPedido,
-                        'descricao' => $descricao,
-                        'unidadeAtividade' => $unidadeAtividade,
-                        'codTipoAtividade' => $codTipoAtividade,
-                        'codCategoria' => $codCategoria);
-                    $this->atividadeModel->insertAtividade($insert);
+                echo "<br />";
+                echo $tipoAtividade;
+                echo "<br />";
+                echo $categoria;
+                echo "<br />";
+                echo $descricao;
+                echo "<br />";
+                echo $unidadeAtividade;
+                echo "<br />";
+                echo $i;
+
+                echo "<br />";
+                echo "<br />";
+                echo "<br />";
+
+
+                if (strcasecmp($categoria, 'Extensão')) {
+
+                    $categoria = 3;
                 }
+                if (strcasecmp($categoria, 'Ensino')) {
+                    $categoria = 2;
+                }
+                if (strcasecmp($categoria, 'Pesquisa')) {
+                    $categoria = 1;
+                }
+                $pedido['descricao'] = $descricao;
+                $pedido['codTipoAtividade'] = 1;
+                $pedido['codCategoria'] = $categoria;
+                $pedido['unidadeAtividade'] = $unidadeAtividade;
+                $pedido['codPedido'] = $idPedido;
+                $pedido['id'] = $i;
+
+                $this->atividadeModel->insertAtividade($pedido);
+                $i++;
             }
-            $data['pedido'] = $pedido;
-            redirect('/aluno/pedido/' . $idPedido, 'refresh');
         }
     }
 
-    public function upCertificado() {
+    function inserirCertificado() {
 
         $idAtividade = $this->input->post('cmbAtividade');
         $idPedido = $this->input->post('idPedido');
@@ -184,12 +191,25 @@ class Aluno extends CI_Controller {
             $this->load->view('upload_success', $erro);
         } else {
             $this->atividadeModel->setArquivoURL($idPedido, $idAtividade, $this->upload->data()['file_name']);
-            $data = array('upload_data' => $this->upload->data());
+            $data = array('upload_data' => $this->upload->data(), 'idPedido' => $idPedido);
             $this->load->view('upload_success', $data);
         }
     }
 
-    public function download() {
+    function removerCertificado() {
+        $idPedido = $_POST['idPedido'];
+        $idAtividade = $_POST['idAtividade'];
+        $file = $this->atividadeModel->getAtividade($idAtividade, $idPedido)->arquivoURL;
+        $this->atividadeModel->removerCertificado($idPedido, $idAtividade);
+
+        if (unlink('/var/www/sistac/arquivos/' . $file)) {
+            echo 'sucesso';
+        } else {
+            echo 'falha';
+        }
+    }
+
+    function downloadCertificado() {
         $file = $_POST['arquivoURL'];
         $this->load->helper('download');
         $data = file_get_contents($file); // Read the file's contents
@@ -197,17 +217,11 @@ class Aluno extends CI_Controller {
         force_download($name, $data);
     }
 
-    public function removerCertificado() {
-        $idPedido = $_POST['idPedido'];
-        $idAtividade = $_POST['idAtividade'];
-        $file = $this->atividadeModel->getAtividade($idAtividade, $idPedido)->arquivoURL;
-        $this->atividadeModel->removerCertificado($idPedido, $idAtividade);
-        
-        if (unlink('/var/www/sistac/arquivos/'.$file)) {
-            return 'deleted successfully';
-        } else {
-            return 'errors occured';
-        }
+    function removerPedido() {
+        $idPedido = $_POST['parametros'];
+
+        $this->atividadeModel->removerAtividades($idPedido);
+        $this->pedidoModel->removerPedido($idPedido);
     }
 
 }

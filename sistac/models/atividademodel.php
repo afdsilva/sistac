@@ -41,7 +41,16 @@ class AtividadeModel extends CI_Model {
     }
 
     function insertAtividade($data) {
-        $this->db->insert($this->table, $data);
+        
+         $insert = array(
+                    'id' => $data['id'],
+                    'codPedido' => $data['codPedido'],
+                    'descricao' => $data['descricao'],
+                    'unidadeAtividade' => $data['unidadeAtividade'],
+                    'codTipoAtividade' => $data['codTipoAtividade'],
+                    'codCategoria' => $data['codCategoria']);
+        
+        $this->db->insert($this->table, $insert);
     }
 
     function deleteAtividade($idPedido, $idAtividade) {

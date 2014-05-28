@@ -12,7 +12,7 @@
 <?php endforeach; ?>
 </ul>
 
-<p><?php echo anchor('aluno', 'Upload Another File!'); ?></p>
+<p><?php echo anchor('aluno/pedido/'.$idPedido, 'Upload Another File!'); ?></p>
 
 </body>
 </html>
