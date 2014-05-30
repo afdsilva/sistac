@@ -148,20 +148,9 @@ class Aluno extends CI_Controller {
                 echo "<br />";
                 echo "<br />";
                 echo "<br />";
-
-
-                if (strcasecmp($categoria, 'Extensão')) {
-
-                    $categoria = 3;
-                }
-                if (strcasecmp($categoria, 'Ensino')) {
-                    $categoria = 2;
-                }
-                if (strcasecmp($categoria, 'Pesquisa')) {
-                    $categoria = 1;
-                }
+                
                 $pedido['descricao'] = $descricao;
-                $pedido['codTipoAtividade'] = 1;
+                $pedido['codTipoAtividade'] = $tipoAtividade;
                 $pedido['codCategoria'] = $categoria;
                 $pedido['unidadeAtividade'] = $unidadeAtividade;
                 $pedido['codPedido'] = $idPedido;
