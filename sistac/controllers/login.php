@@ -23,31 +23,31 @@ class Login extends CI_Controller {
         $pass = $this->input->post('password');
 
         $query = $this->loginModel->validate($user, $pass);
-
+        
+        
         if ($query) {
-            $this->session->set_userdata(array("user" => $query));
+            $this->session->set_userdata(array('user' => $query));
 
             switch ($query->codTipoUsuario) {
                 case 1:
                     echo "Administrdor";
                     break;
                 case 2:
-                    echo "Gerenciador";
+                    redirect('gerente', 'refresh');
                     break;
                 case 3:
                     echo "Coordenador";
                     break;
                 case 4:
-                    echo "Aluno";
-                    //redirect('aluno', 'refresh');
+                    redirect('aluno', 'refresh');
                     break;
                 default:
-                    redirect($this->index());
+                    redirect('login', 'refresh');
             }
 
             var_dump($this->session->userdata("user"));
         } else {
-            redirect($this->index());
+            redirect('login', 'refresh');
         }
     }
 

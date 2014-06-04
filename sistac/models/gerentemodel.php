@@ -15,21 +15,8 @@ class GerenteModel extends CI_Model {
 
    public function getGerente(){
        
-       //return $this->db->get('usuario')->result();
-       
+       // return $this->db->get('usuario')->result();  
    }
    
-   public function inserirGerente($gerente) {
-       
-   }
-   
-   public function editarGerente($id){
-       
-       
-   }
-   public function removerGerente($id){
-       
-       
-   }
 
 }

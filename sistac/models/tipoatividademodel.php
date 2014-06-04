@@ -18,4 +18,5 @@ class TipoAtividadeModel extends CI_Model {
 	public function getTipoAtividadeByName($nome) {
 		return $this->db->get_where($this->table, array('nome' => $nome))->row();
 	}
+        
 }
