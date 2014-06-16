@@ -143,6 +143,14 @@ function jTableStart($nome = 'jPanel',$title='titulo', $URL_list = "blog/listaTo
             multiselect: $multiselect, //Allow multiple selecting
             selectingCheckboxes: $selectingCheckboxes, //Se está ou não marcado
             defaultSorting: 'id ASC',
+            selectionChanged: function () {
+                if(typeof (window.getOnClick) == 'function'){
+                            $('#$nome').jtable('selectedRows').each(function() {
+                                    getOnClick($(this).data('record'));
+                                })
+                            ;
+                        }
+            },
             actions: {
                 listAction: '$URL_list'
                 $URL_create

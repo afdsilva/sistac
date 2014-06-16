@@ -8,14 +8,16 @@ class PedidoModel extends CI_Model {
         parent::__construct();
     }
 
-    public function getPedidos($codUsuario) {
+    /*
+      public function getPedidos($codUsuario) {
 
-        $this->db->select('*');
-        $this->db->from('pedido');
-        $this->db->join('usuario ', 'usuario.cpf = pedido.codUsuario');
-        $this->db->where('codUsuario', $codUsuario);
-        return $this->db->get()->result();
-    }
+      $this->db->select('*');
+      $this->db->from('pedido');
+      $this->db->join('usuario ', 'usuario.cpf = pedido.codUsuario');
+      $this->db->where('codUsuario', $codUsuario);
+      return $this->db->get()->result();
+      }
+     */
 
     public function getPedido($codUsuario) {
 
@@ -34,31 +36,41 @@ class PedidoModel extends CI_Model {
         return $this->db->get()->row();
     }
 
-    function getPedidosByAnoSem($parametros, $get) {
+    function getPedidos($parametros, $get) {
 
-        $this->db->select('p.id, u.nome as nome, c.nome as curso, p.ano, p.semestre, s.nome as status')->
-                from('pedido as p ')->
-                join('usuario as u ', 'u.cpf = p.codUsuario')->
-                join('curso as c ', 'c.id = u.codCurso')->
-                join('status as s', 's.id = p.codStatus');
+        $this->db->select("p.id, u.nome as nome, c.nome as curso, concat(p.ano,'/',p.semestre) as anoSemestre, s.nome as status", false);
+        $this->db->from('pedido as p');
+        $this->db->join('usuario as u', 'u.cpf = p.codUsuario');
+        $this->db->join('curso as c', 'c.id = u.codCurso');
+        $this->db->join('status as s', 's.id = p.codStatus');
 
         if (!empty($parametros['ano'])) {
-            $this->db->where('ano', $parametros['ano']);
+            $this->db->where('p.ano', $parametros['ano']);
         }
+        if (!empty($parametros['curso'])) {
+            $this->db->where('u.codCurso', $parametros['curso']);
+        }
+        if (!empty($parametros['status'])) {
+            $this->db->where('s.id', $parametros['status']);
+        }
+
         if (!empty($parametros['semestre'])) {
-            $this->db->where('semestre', $parametros['semestre']);
+            $this->db->where('p.semestre', $parametros['semestre']);
+        }
+        if (!empty($parametros['nomeAluno'])) {
+            $this->db->like('upper(u.nome)', strtoupper($parametros['nomeAluno']));
         }
 
-/*
-        if (!empty($get['jtSorting'])) {
-            $pieces = explode(" ", @$get['jtSorting']);
-            $this->db->order_by($pieces[0], $pieces[1]);
-        }
+        /*
+          if (!empty($get['jtSorting'])) {
+          $pieces = explode(" ", @$get['jtSorting']);
+          $this->db->order_by($pieces[0], $pieces[1]);
+          }
 
-        if (@$get['jtStartIndex'] != '' && @$get['jtPageSize'] != '') {
-            $this->db->limit($get['jtStartIndex'] + ',' + $get['jtPageSize']);
-        }
-*/
+          if (@$get['jtStartIndex'] != '' && @$get['jtPageSize'] != '') {
+          $this->db->limit($get['jtStartIndex'] + ',' + $get['jtPageSize']);
+          }
+         */
         $data['Records'] = $this->db->get()->result();
         $this->db->trans_complete();
 
@@ -71,18 +83,19 @@ class PedidoModel extends CI_Model {
         return $data;
     }
 
-    public function insertNovoPedido($idUsuario) {
+    public function insertNovoPedido($idUsuario, $matricula) {
 
         $semestre = (date('M') > 6 ? 2 : 1);
         $ano = date('Y');
         $data = array(
+            'id' => $matricula,
             'ano' => $ano,
             'semestre' => $semestre,
             'codUsuario' => $idUsuario,
             'codStatus' => '1'
         );
         $this->db->insert($this->table, $data);
-        return $this->db->insert_id();
+        return $matricula;
     }
 
 }
