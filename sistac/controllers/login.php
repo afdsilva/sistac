@@ -30,7 +30,7 @@ class Login extends CI_Controller {
 
             switch ($query->codTipoUsuario) {
                 case 1:
-                    echo "Administrador";
+                    redirect('administrador', 'refresh');
                     break;
                 case 2:
                     redirect('gerente', 'refresh');

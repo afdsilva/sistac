@@ -29,5 +29,22 @@ class UsuarioModel extends CI_Model {
         }
         
     }
+    public function getUsuarios() {
+        //$this->db->select('nome, email, descricao');
+        //$this->db->from('usuario');
+        //$this->db->join('tipoUsuario as tu', 'usuario.codTipoUsuario = tu.id');
+        //$this->db->orderby('tu.id');
+        //return $this->db->get()->result();
+        return $this->db->query(
+                "SELECT Nome, Email, Descricao "
+                . "FROM usuario "
+                . "JOIN tipoUsuario as tu ON usuario.codTipoUsuario = tu.id "
+                . "ORDER BY tu.id"
+            );
+    }
+    
+    public function deleteAtividades($cpfUsuario) {
+        $this->db->delete($this->table, array('cpfUsuario' => $cpfUsuario));
+    }
 }
     
