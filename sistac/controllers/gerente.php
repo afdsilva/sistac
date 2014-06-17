@@ -37,7 +37,12 @@ class Gerente extends CI_Controller {
     function listaPedidos() {
         print json_encode($this->pedidoModel->getPedidos($_POST, $_GET));
     }
-
+    
+    function listaAtividades($pedidoId){
+        
+        print json_encode($this->atividadeModel->getAtividadesAluno($pedidoId));
+    }
+    
     function filtrar() {
         $data['pedidos'] = $this->pedidoModel->getPedidos($_POST);
     }
@@ -46,14 +51,17 @@ class Gerente extends CI_Controller {
         if ($this->session->userdata('user')->codTipoUsuario == 2) {
             $data['categorias'] = $this->categoriaModel->getCategorias();
             $data['tipoAtividades'] = $this->tipoAtividadeModel->getTipoAtividades();
-            $data['atividades'] = $this->atividadeModel->getAtividades($pedidoId);
+            //$data['atividades'] = $this->atividadeModel->getAtividades($pedidoId);
+            $data['pedidoId'] = $pedidoId;
             //$data['unidade'] = $this->unidadeModel->getUnidade($data['tipoAtividades']->codUnidade);
-            $this->load->view('include/header');
+            $this->load->view('include/headerAreaRestrita');
             $this->load->view('gerente/gerenteView', $data);
             $this->load->view('include/footer');
         } else {
             $this->redirect('home', 'refresh');
         }
     }
+    
+
 
 }

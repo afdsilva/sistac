@@ -1,19 +1,58 @@
+
+
+
+<ol class="breadcrumb">
+  <li><b>Gerente</b></li>
+  <li><a href="<?= base_url() ?>gerente">Filtro</a></li>
+  <li class="active">Editar</li>
+  <li class="active"><?php echo $pedidoId; ?></li>
+  
+</ol>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Resumo</h3>
+    </div>
+    <div class="panel-body">
+        <span class="glyphicon glyphicon-search"></span><b> Pesquisa</b> 
+         <span class="glyphicon glyphicon-pencil"></span> <b>Ensino </b>
+         <span class="glyphicon glyphicon-fullscreen"></span><b> Extensão </b>
+        
+        
+    </div>
+</div>
+
+<div class="row">
+ 
+    
+            <?php echo jTableStart('atividades', 'Lista de Atividades', '../listaAtividades/'.$pedidoId, '', '', '', array('selecting')) ?>
+            <?php echo jPanelAddID(true, false, false, false) ?>
+            <?php echo jPanelAddCampo('descricao', 'Descrição', '', '40%', true, false, true) ?>
+            <?php echo jPanelAddCampo('categoria', 'Categoria', '', '5%', true, false, true) ?>
+            <?php echo jPanelAddCampo('tipoAtividade', 'Tipo Atividade', '', '35%', true, false, true) ?>
+            <?php echo jPanelAddCampo('horas', 'Horas', '', '3%', true, false, true) ?>
+            <?php echo jPanelAddCampo('aproveitamento', 'Aproveitamento', '', '3%', true, false, true) ?>
+            <?php echo jPanelAddCampo('unidade', 'Unidade', '', '3%', true, false, true) ?>
+            <?php echo jPanelAddCampo('validaAtividade', 'Atividade ok?', '', '10%', true, false, true) ?>
+            <?php echo jTableEnd() ?>
+   
+    </div>
+
+
 <div class="row">
     <div class="container col-sm-8 col-md-offset-2">
-        <h2> Edição</h2>
+        <h4> Edição</h4>
         <form class="form-horizontal well" role="form">
             <div class="form-group">
                 <label for="descricao" class="col-sm-2 control-label">Descrição</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="descricao" 
-                           placeholder="Digite a descrição da atividade">
+                    <input type="text" class="form-control" id="descricao" value="<?=@$atividade->descricao?>">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="categoria" class="col-sm-2 control-label">Categoria</label>
                 <div class="col-sm-3">
-                    <select id="categoria" class='form-control'>
+                    <select id="categoria" class='form-control' value="<?=@$ativiade->categoria?>">
                         <option></option>
                         <?php
                         foreach ($categorias as $categoria)
@@ -57,38 +96,12 @@
     </div>
     </div>
 
-</form></div>
+</div>
+
+
 
 <div class="row">
-
-
-    <div class="container col-sm-8 col-md-offset-2">
-        <?php /*
-          $this->table->set_template(array('table_open' => '<table class="table table-hover"">'));
-          $this->table->set_heading(array('Descrição', 'Categoria', 'Hr. Reais', 'Hr. Aproveitadas', 'Unidade', 'Certificado', 'Ações'
-          ));
-          if (@$atividades != NULL) {
-          foreach ($atividades as $atividade) {
-          $this->table->add_row(array(
-          $atividade->descricao,
-          @$atividade->categoria,
-          @$atividade->horas,
-          @$atividade->aproveitamento,
-          @$atividade->unidade,
-          @$atividade->certificado,
-          form_button(array('name' => 'editar', 'type' => 'button', 'class' => 'btn btn-default', 'value' => @$atividade->id), 'Editar', 'onClick="editar(\'' . @$atividade->id . ' \')"'),
-          form_button(array('name' => 'remover', 'type' => 'button', 'class' => 'btn btn-default', 'value' => @$atividade->id), 'Remover', 'onClick="remover(\'' . @$atividade->id . '\')"')
-          ));
-          }
-          }
-          echo $this->table->generate();
-         */ ?>
-    </div>
-</div>
 </div>
 
 <script>
-
-
-
 </script>

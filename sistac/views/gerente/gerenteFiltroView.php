@@ -1,3 +1,9 @@
+<ol class="breadcrumb">
+  <li><b>Gerente</b></li>
+  <li><a href="<?= base_url() ?>gerente">Filtro</a></li>
+
+  
+</ol>
 <div class="row">
     <div class="container col-sm-8 col-md-offset-2">
         <div class="form-group well-sm">
@@ -61,7 +67,7 @@
     </div>
     <div class="row">
         <div class="container col-sm-8 col-md-offset-2">
-            <?php echo jTableStart('pedidos', 'Pedidos', 'gerente/listaPedidos', '', '', '', array('selecting', 'selectingCheckboxes')) ?>
+            <?php echo jTableStart('pedidos', 'Pedidos', 'gerente/listaPedidos', '', '', '', array('selecting')) ?>
             <?php echo jPanelAddID(true, false, false, false) ?>
             <?php echo jPanelAddCampo('nome', 'Nome', '', '30%', true, false, true) ?>
             <?php echo jPanelAddCampo('curso', 'Curso', '', '25%', true, false, true) ?>
@@ -96,7 +102,7 @@
                 $selectedRows.each(function() {
                     var record = $(this).data('record');
                     console.log(record);
-                    location.href = 'gerente/editar/' + record.id;
+                    location.href = 'gerente/editar/'+record.id;
                 });
                 break;
             default:
@@ -106,8 +112,7 @@
     }
 
     function getOnClick($value){
-        
-    console.log($value.id);
+        location.href = 'gerente/editar/'+$value.id;   
     }
     function remover() {
 
