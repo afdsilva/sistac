@@ -50,7 +50,7 @@ class Uploader extends CI_Controller {
 			$atividades = $json->{'activity'};
 			$i = 0;
 			foreach ($atividades as $atividade) {
-				$tipoAtividade = $atividade->{'typeOfActivity'};
+				$tipoAtividade = $a7tividade->{'typeOfActivity'};
 				$categoria = $atividade->{'category'};
 				$descricao = $atividade->{'description'};
 				$unidadeAtividade = $atividade->{'time'};
