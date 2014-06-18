@@ -1,3 +1,12 @@
+<ol class="breadcrumb">
+  <li><b>Administrador</b></li>
+  <li><a href="<?= base_url() ?>administrador">Filtro</a></li>
+
+  
+</ol>
+<div class="form-group">
+    <button type='button' class="btn btn-success btn-lg pull-right" onclick='cadastrar()'>Novo Usuário</button>
+</div>
 <div class="row">
 <div class="container col-sm-8 col-md-offset-2">
     <div class="form-group well-sm">
@@ -30,15 +39,15 @@
             <div class="form-group">
                 <button type='button' class="btn btn-success btn-lg pull-right" onclick='filtrar()'>Filtrar</button>
             </div>
+            <div class="form-group">
+                <button type='button' class="btn btn-success btn-lg pull-right" onclick='editar()'>Editar</button>
+            </div>
         </form>
     </div>
         </div>
 
-        <div class="row">
-        
-        
+    <div class="row">  
         <div class="container col-sm-8 col-md-offset-2">
-
             
             <?php 
                 $this->load->library('table');
@@ -46,43 +55,51 @@
                 //var_dump($Usuario);
             ?>
             
-            <?//php echo jTableStart('usuario','Usuários','administrador/listaUsuarios','','','',array('selecting'))?>
-                <?//php echo jPanelAddID(true,true,true)?>
-                <?//php echo jPanelAddCampo('nome', 'Nome', '', '25%',true,false,true)?>
-                <?//php echo jPanelAddCampo('email', 'Email', '', '25%',true,false,false)?>
-                <?//php echo jPanelAddCampo('descrição', 'Tipo de Usuário', '', '20%',true,false,false)?>
-            <?//php echo jTableEnd()?>
+            <?php //echo jTableStart('Usuario','Usuários','administrador/listaUsuarios','','','',array('selecting'))?>
+            <?php //echo jPanelAddID(true, false, false, false) ?>
+                <?php //echo jPanelAddCampo('nome', 'Nome', '', '25%',true,false,true)?>
+                <?php //echo jPanelAddCampo('email', 'Email', '', '25%',true,false,false)?>
+                <?php //echo jPanelAddCampo('tipoUsuario', 'Tipo de Usuário', '', '20%',true,false,false)?>
+            <?php //echo jTableEnd()?>
         </div>
     </div>
 </div>
 
 <script>
+    
 
-    function filtrar() {
-        
-        $('#usuario').jtable('load', {
-                nome: $("#nome").val(),
+    $('#filtrar').click(function(){
+        $('#usuarios ').jtable('load', {
+                nome: $('#nome').val(),
                 email: $("#email").val(),
-                tipoUsuario: $('#tipoUsuario').val()
+                tipoUsuario: $("#tipoUsuario").val()
             });
-        
-        /*
-        $.post('<? base_url() ?>gerente/filtrar',
-                {
-                    ano: $("#ano").val(),
-                    semestre: $("#semestre").val()
-                },
-        function(data){
-        });*/
+    })
+
+    function editar() {
+        var $selectedRows = $('#usuarios').jtable('selectedRows');
+        switch ($selectedRows.length) {
+            case 0:
+                dialogBlogDialogoOpen('nenhuma seleção', 'muitos selecionados');
+                break;
+            case 1:
+                $selectedRows.each(function() {
+                    var record = $(this).data('record');
+                    console.log(record);
+                    location.href = 'administrador/editar/'+record.id;
+                });
+                break;
+            default:
+                dialogBlogDialogoOpen('default', 'default');
+                break;
+        }
     }
 
-    function editar(id) {
-        location.href = '<?=base_url()?>administrador/editar/'+id;
+    function getOnClick($value){
+        location.href = 'administrador/editar/'+$value.id;   
     }
-
     function remover() {
 
 
     }
-
 </script>
