@@ -61,7 +61,7 @@ class PedidoModel extends CI_Model {
             $this->db->like('upper(u.nome)', strtoupper($parametros['nomeAluno']));
         }
 
-        /*
+        
           if (!empty($get['jtSorting'])) {
           $pieces = explode(" ", @$get['jtSorting']);
           $this->db->order_by($pieces[0], $pieces[1]);
@@ -70,7 +70,7 @@ class PedidoModel extends CI_Model {
           if (@$get['jtStartIndex'] != '' && @$get['jtPageSize'] != '') {
           $this->db->limit($get['jtStartIndex'] + ',' + $get['jtPageSize']);
           }
-         */
+         
         $data['Records'] = $this->db->get()->result();
         $this->db->trans_complete();
 

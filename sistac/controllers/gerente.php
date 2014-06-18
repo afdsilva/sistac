@@ -40,7 +40,7 @@ class Gerente extends CI_Controller {
     
     function listaAtividades($pedidoId){
         
-        print json_encode($this->atividadeModel->getAtividadesAluno($pedidoId));
+        print json_encode($this->atividadeModel->getAtividadesAluno($pedidoId, $_GET));
     }
     
     function filtrar() {

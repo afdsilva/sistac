@@ -27,11 +27,11 @@ class AtividadeModel extends CI_Model {
 
     public function getAtividade($idAtividade, $idPedido) {
         $this->db->select("$this->table.id, "
-                . "$this->table.descricao, "
-                . "$this->table.unidadeAtividade, "
-                . "$this->table.codTipoAtividade, tipoAtividade.nome, "
-                . "$this->table.codCategoria, categoria.nome,"
-                . "$this->table.arquivoURL")->
+                        . "$this->table.descricao, "
+                        . "$this->table.unidadeAtividade, "
+                        . "$this->table.codTipoAtividade, tipoAtividade.nome, "
+                        . "$this->table.codCategoria, categoria.nome,"
+                        . "$this->table.arquivoURL")->
                 from($this->table)->
                 join('tipoAtividade', "tipoAtividade.id = $this->table.codTipoAtividade")->
                 join('categoria', "categoria.id = $this->table.codCategoria")->
@@ -41,15 +41,15 @@ class AtividadeModel extends CI_Model {
     }
 
     function insertAtividade($data) {
-        
-         $insert = array(
-                    'id' => $data['id'],
-                    'codPedido' => $data['codPedido'],
-                    'descricao' => $data['descricao'],
-                    'unidadeAtividade' => $data['unidadeAtividade'],
-                    'codTipoAtividade' => $data['codTipoAtividade'],
-                    'codCategoria' => $data['codCategoria']);
-        
+
+        $insert = array(
+            'id' => $data['id'],
+            'codPedido' => $data['codPedido'],
+            'descricao' => $data['descricao'],
+            'unidadeAtividade' => $data['unidadeAtividade'],
+            'codTipoAtividade' => $data['codTipoAtividade'],
+            'codCategoria' => $data['codCategoria']);
+
         $this->db->insert($this->table, $insert);
     }
 
@@ -77,29 +77,29 @@ class AtividadeModel extends CI_Model {
         $this->db->where('codPedido', $idPedido);
         $this->db->update('atividade', $data);
     }
-	function getLastIdAtividade($idPedido) {
-		return $this->db->select_max('id')->where('codPedido', $idPedido)->get('atividade')->row() + 1;
-	}
-        
-        
-    function getAtividadesAluno($pedidoId) {
-        
+
+    function getLastIdAtividade($idPedido) {
+        return $this->db->select_max('id')->where('codPedido', $idPedido)->get('atividade')->row() + 1;
+    }
+
+    function getAtividadesAluno($pedidoId, $get) {
+
         $this->db->select("a.id, a.descricao, c.nome as categoria, ta.nome as tipoAtividade, "
                 . "a.unidadeAtividade as horas, ta.maxHoras as aproveitamento, a.validaAtividade", false);
         $this->db->from('atividade as a');
         $this->db->join('categoria as c', 'c.id = a.codCategoria');
         $this->db->join('tipoAtividade as ta', 'ta.id = a.codTipoAtividade');
         $this->db->where('a.codPedido', $pedidoId);
-        /*
-          if (!empty($get['jtSorting'])) {
-          $pieces = explode(" ", @$get['jtSorting']);
-          $this->db->order_by($pieces[0], $pieces[1]);
-          }
 
-          if (@$get['jtStartIndex'] != '' && @$get['jtPageSize'] != '') {
-          $this->db->limit($get['jtStartIndex'] + ',' + $get['jtPageSize']);
-          }
-        */
+        if (!empty($get['jtSorting'])) {
+            $pieces = explode(" ", @$get['jtSorting']);
+            $this->db->order_by($pieces[0], $pieces[1]);
+        }
+
+        if (@$get['jtStartIndex'] != '' && @$get['jtPageSize'] != '') {
+            $this->db->limit($get['jtStartIndex'] + ',' + $get['jtPageSize']);
+        }
+
         $data['Records'] = $this->db->get()->result();
         $this->db->trans_complete();
 
@@ -110,8 +110,6 @@ class AtividadeModel extends CI_Model {
         }
 
         return $data;
-    }    
-        
-        
-        
+    }
+
 }
