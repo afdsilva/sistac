@@ -10,17 +10,19 @@ class AtividadeModel extends CI_Model {
 
     public function getAtividades($idPedido) {
         $this->db->select("$this->table.id, 
-    			$this->table.descricao, 
-    			$this->table.unidadeAtividade, 
-    			$this->table.codTipoAtividade,
-                        $this->table.arquivoURL,
-                        $this->table.codPedido,    
-    			tipoAtividade.nome as tipoAtividade, 
+				$this->table.descricao, 
+				$this->table.unidadeAtividade, 
+				$this->table.codTipoAtividade,
+				$this->table.idCertificado,
+        		certificado.descricao as certificado,
+				$this->table.codPedido,
+        		tipoAtividade.nome as tipoAtividade, 
     			$this->table.codCategoria,
     			categoria.nome as categoria")->
                 from($this->table)->
                 join('tipoAtividade', "tipoAtividade.id = $this->table.codTipoAtividade")->
                 join('categoria', "categoria.id = $this->table.codCategoria")->
+                join('certificado', "certificado.id = $this->table.idCertificado", 'left')->
                 where($this->table . '.codPedido', $idPedido);
         return $this->db->get()->result();
     }
