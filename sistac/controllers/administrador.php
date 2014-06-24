@@ -35,17 +35,14 @@ class Administrador extends CI_Controller {
         $data['usuarios'] = $this->usuarioModel->getUsuarios($_POST,$_GET);
     }
     
-    /*function editar($pedidoId) {
-        if ($this->session->userdata('user')->codTipoUsuario == 2) {
-            $data['categorias'] = $this->categoriaModel->getCategorias();
-            $data['tipoAtividades'] = $this->tipoAtividadeModel->getTipoAtividades();
-            $data['atividades'] = $this->atividadeModel->getAtividades($pedidoId);
-            //$data['unidade'] = $this->unidadeModel->getUnidade($data['tipoAtividades']->codUnidade);
+    function editar($usuarioId) {
+        if ($this->session->userdata('user')->codTipoUsuario == 1) {
+            $data['usuarios'] = $this->usuarioModel->getUsuarios($data);
             $this->load->view('include/header');
-            $this->load->view('gerente/gerenteView', $data);
+            $this->load->view('administrador/administradorView', $data);
             $this->load->view('include/footer');
         } else {
             $this->redirect('home', 'refresh');
         }
-    }*/
+    }
 }    

@@ -1,5 +1,8 @@
 <div class="col-sm-12">
     <div class="form-group well-sm">
+        <div class="form-group">
+                <button type='button' class="btn btn-success btn-lg pull-right" onClick="editar()">Novo Usuário</button>
+        </div>
         <form class="form-horizontal well" role="form">
             <h3><strong>Filtro</strong></h3>
             <hr>
