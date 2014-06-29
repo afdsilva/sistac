@@ -36,7 +36,7 @@ class Login extends CI_Controller {
                     redirect('gerente', 'refresh');
                     break;
                 case 3:
-                    echo "Coordenador";
+                    redirect('coordenador', 'refresh');
                     break;
                 case 4:
                     redirect('aluno', 'refresh');
