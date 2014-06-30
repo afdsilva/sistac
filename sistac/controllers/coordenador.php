@@ -20,7 +20,7 @@ class Coordenador extends CI_Controller {
         if ($this->session->userdata('user') == true) {
             if ($this->session->userdata('user')->codTipoUsuario == 3) {
                 $data['status'] = $this->statusModel->getStatus();
-                $this->load->view('include/header');
+                $this->load->view('include/headerAreaRestrita');
                 $this->load->view('coordenador/coordenadorView', $data);
                 $this->load->view('include/footer');
             } else {
