@@ -38,37 +38,12 @@
         </form>
     </div>
     
-    <?php
-    //var_dump($usuarios);
-        echo('<table border="1">'
-           . '<tr><th>Nome</th><th>Email</th><th>Tipo de Usuario</th><th> </th></tr>');
-        foreach($usuarios['Records'] as $usuario){
-            //var_dump($usuario);
-            echo('<tr>');
-            echo('<td>'.$usuario->nome.'</td>');
-            echo('<td>'.$usuario->email.'</td>');
-            echo('<td>'.$usuario->descricao.'</td>');
-            echo('<td>
-                    <form  action="'.base_url().'administrador/editar" method="POST">
-                        <input type=hidden name="cpf" value='.$usuario->cpf.'>
-                        <input type="submit" value="Editar">
-                    </form>
-                </td>');
-            echo('</tr>');
-        }
-        echo('</table>');
-        
-    ?>
-    
-    
-    <?php 
-        //echo jTableStart('usuario', 'Usuários', 'administrador/listaUsuarios', '', '', '', array('selecting')); 
-        //echo jPanelAddID(true, true, true);
-        //echo jPanelAddCampo('nome', 'Nome', '', '25%', true, false, true);
-        //echo jPanelAddCampo('email', 'Email', '', '25%', true, false, false);
-        //echo jPanelAddCampo('descricao', 'Tipo de Usuário', '', '20%', true, false, false); 
-        //echo jTableEnd() 
-    ?>
+    <?php echo jTableStart('usuario', 'Usuários', 'administrador/listaUsuarios', '', '', '', array('selecting')) ?>
+    <?php echo jPanelAddID(true, true, true) ?>
+    <?php echo jPanelAddCampo('nome', 'Nome', '', '25%', true, false, true) ?>
+    <?php echo jPanelAddCampo('email', 'Email', '', '25%', true, false, false) ?>
+    <?php echo jPanelAddCampo('descricao', 'Tipo de Usuário', '', '20%', true, false, false) ?>
+    <?php echo jTableEnd() ?>
 </div>
 <script>
     

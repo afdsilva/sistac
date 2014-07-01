@@ -4,36 +4,36 @@
         <div class="form-group well-sm">
             <form class="well">
                 <div class="container">
-                    <b><label style="font-size:14pt" for="lblIdentificacao">Identifique-se</label></b>
+                    <b><label style="font-size:14pt" for="lblIdentificacao">Identificações</label></b>
                     <div class="form-group">
-                        <label for="lblNome">Nome</label>
-                        <input type="text" id="txtNome" class="form-control " placeholder="Insira seu nome">
-                        </div>
-                    <div clas s="form-group ">
+                      <label for="lblNome">Nome</label>
+                      <input type="text" value="<?php echo($usuario->nome);?>" id="txtNome" class="form-control ">
+                    </div>
+                    <div class="form-group ">
                         <label for="lblCPF">CPF</label>
-                        <input type="text" id="txtCPF" class="form-control" placeholder="Insira seu CPF">
+                        <input type="text" value="<?php echo($usuario->cpf);?>" id="txtCPF" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="lblCurso">Curso</label>
 
                         <div class="row">
-                            <div class="col-lg-6">
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <a id="botaoCurso" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Selecione o curso <span class="caret"></span></a>
-                                        <a id="idCurso"  hidden="true"></a>
-                                        <ul class="dropdown-menu">
-                                            <?php
-                                            foreach ($cursos as $curso) {
-                                                echo '<li><a onClick="selecionaCurso(\'' . $curso->id . ',' . $curso->nome . '\')">' . $curso->nome . ' </a></li>';
-                                            }
-                                            ?>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>  
+                          <div class="col-lg-6">
+                            <div class="input-group">
+                              <?php
+                                echo("<select id=idCurso> <option value=0></option>");
+                                  foreach ($cursos as $curso) {
+                                    echo("<option value='".$curso->id."' ");
+                                    if($curso->id==$usuario->codCurso){
+                                        echo("selected");
+                                    }
+                                    echo(">".$curso->id." - ".$curso->nome."</option>");
+                                    //echo '<li><a onClick="selecionaTipoUsuario(\'' . $tipoUsuario->id . ',' . $tipoUsuario->descricao . '\')">' . $tipoUsuario->descricao . ' </a></li>';
+                                  }
+                                echo("</select>");
+                              ?>
+                            </div>
+                          </div>  
                         </div>
                     </div>
 
@@ -43,37 +43,29 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <a id="botaoCurso" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                        <a id="idCurso"  hidden="true"></a>
-                                        <ul class="dropdown-menu">
-                                            <?php
-                                            foreach ($cursos as $curso) {
-                                                echo '<li><a onClick="selecionaCurso(\'' . $curso->id . ',' . $curso->nome . '\')">' . $curso->nome . ' </a></li>';
+                                    <?php
+                                        echo("<select id='idTipoUsuario'> <option value=0></option>");
+                                        foreach ($tipoUsuario as $tipoUsuario) {
+                                            echo("<option value='".$tipoUsuario->id."' ");
+                                            if($tipoUsuario->id == $usuario->codTipoUsuario){
+                                                echo("selected");
                                             }
-                                            ?>
-
-                                        </ul>
-                                    </div>
+                                            echo(">".$tipoUsuario->descricao."</option>");
+                                            //echo '<li><a onClick="selecionaTipoUsuario(\'' . $tipoUsuario->id . ',' . $tipoUsuario->descricao . '\')">' . $tipoUsuario->descricao . ' </a></li>';
+                                        }
+                                        echo("</select>");
+                                    ?>
                                 </div>
                             </div>  
                         </div>
                     </div>
-                    
-                    <hr>
-                    <div class="container">
-                        <b><label style="font-size:14pt" for="acesso">Acesso ao Usuário</label></b>
-                        <div class="form-group">
-                            <label for="lblNome">Email</label>
-                            <input type="text" class="form-control" id="txtEmail" placeholder="Insira seu email do @inf.ufpel.edu.br">
-                        </div>
-                        <div class="form-group">
-                            <label for="lblCPF">Senha</label>
-                            <input type="password" class="form-control" id="txtSenha" placeholder="Sua senha para acesso">
-                        </div>
+
+                    <div class="form-group">
+                        <label for="lblNome">Email</label>
+                        <input type="text" value="<?php echo($usuario->email);?>" class="form-control" id="txtEmail">
                     </div>
 
-                    <button type="button" class="btn btn-success" onclick="enviar()">Enviar</button>
+                    <button type="button" class="btn btn-success" onclick="enviar()">Salvar</button>
                 </div>
             </form>
         </div>
@@ -92,18 +84,18 @@
 
     function enviar() {
 
-        $.post('<?= base_url() ?>cadastrar/salvar',
+        $.post('<?= base_url() ?>administrador/salvar',
                 {
                     nome: $("#txtNome").val(),
                     cpf: $("#txtCPF").val(),
                     curso: $('#idCurso').html(),
-                    email: $("#txtEmail").val(),
-                    senha: $("#txtSenha").val()
+                    tipoUsuario: $('#idTipoUsuario').html(),
+                    email: $("#txtEmail").val()
                 },
         function(data) {
             if (data == 'sucesso') {
                 alert("Cadastro feito com sucesso!");
-                window.location.href = "<?= base_url() . 'login/'; ?>"
+                window.location.href = "<?= base_url() . 'administrador/'; ?>"
             } else {
                 alert("Houve uma falha, tente novamente");
             }

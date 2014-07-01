@@ -41,14 +41,14 @@ class Administrador extends CI_Controller {
         $data['usuarios'] = $this->usuarioModel->getUsuarios($_POST,$_GET);
     }
 
-    function editar($usuarioId) {
+    function editar() {
         if ($this->session->userdata('user')->codTipoUsuario == 1) {
-            $data['usuarios'] = $this->usuarioModel->getUsuarios($data);
+            $data['usuario'] = $this->usuarioModel->getUsuarioByCPF($_POST["cpf"]);
             $data['cursos'] = $this->cursoModel->getCursos();
             $data['tipoUsuario'] = $this->tipoUsuarioModel->getTipoUsuarios();
             $this->load->view('include/headerAreaRestrita');
             $this->load->view('include/navigation', $this->navigation);
-            $this->load->view('administrador/administradorView', $data);
+            $this->load->view('administrador/administradorEditarView', $data);
             $this->load->view('include/footer');
         } else {
             $this->redirect('home', 'refresh');
@@ -69,7 +69,7 @@ class Administrador extends CI_Controller {
     }
     
     function salvar(){
-        
+       
         $usuario['nome'] = $_POST['nome'];
         $usuario['cpf'] = $_POST['cpf'];
         $usuario['curso'] = $_POST['curso'];

@@ -70,4 +70,11 @@ class UsuarioModel extends CI_Model {
         $this->db->delete($this->table, array('cpfUsuario' => $cpfUsuario));
     }
 
+    public function getUsuarioByCPF($cpf){
+        $this->db->select('*');
+        $this->db->from('usuario as u');
+        $this->db->where('u.cpf', $cpf);
+        
+        return $this->db->get()->row();
+    }    
 }

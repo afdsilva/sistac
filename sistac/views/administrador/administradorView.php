@@ -21,9 +21,9 @@
                             <div class="col-lg-6">
                                 <div class="input-group">
                                     <?php
-                                        echo("<select> <option value=0></option>");
+                                        echo("<select id='idCurso'> <option value=0></option>");
                                         foreach ($cursos as $curso) {
-                                            echo("<option value=".$curso->id.">".$curso->nome."</option>");
+                                            echo("<option value='".$curso->id."'>".$curso->nome."</option>");
                                             //echo '<li><a onClick="selecionaTipoUsuario(\'' . $tipoUsuario->id . ',' . $tipoUsuario->descricao . '\')">' . $tipoUsuario->descricao . ' </a></li>';
                                         }
                                         echo("</select>");
@@ -40,9 +40,9 @@
                             <div class="col-lg-6">
                                 <div class="input-group">
                                     <?php
-                                        echo("<select> <option value=0></option>");
+                                        echo("<select id='idTipoUsuario'> <option value=0></option>");
                                         foreach ($tipoUsuario as $tipoUsuario) {
-                                            echo("<option value=".$tipoUsuario->id.">".$tipoUsuario->descricao."</option>");
+                                            echo("<option value='".$tipoUsuario->id."'>".$tipoUsuario->descricao."</option>");
                                             //echo '<li><a onClick="selecionaTipoUsuario(\'' . $tipoUsuario->id . ',' . $tipoUsuario->descricao . '\')">' . $tipoUsuario->descricao . ' </a></li>';
                                         }
                                         echo("</select>");
@@ -67,7 +67,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success" onclick="enviar()">Enviar</button>
+                    <button type="button" class="btn btn-success" onclick="enviar()">Salvar</button>
                 </div>
             </form>
         </div>
@@ -91,12 +91,12 @@
 
 
     function enviar() {
-
-        $.post('<?= base_url() ?>cadastrar/salvar',
+        $.post('<?= base_url() ?>administrador/salvar',
                 {
                     nome: $("#txtNome").val(),
                     cpf: $("#txtCPF").val(),
                     curso: $('#idCurso').html(),
+                    tipoUsuario: $('#idTipoUsuario').html(),
                     email: $("#txtEmail").val(),
                     senha: $("#txtSenha").val()
                 },
@@ -107,7 +107,8 @@
             } else {
                 alert("Houve uma falha, tente novamente");
             }
-        });
+        });        alert("opa");
+
 
     }
 </script>
