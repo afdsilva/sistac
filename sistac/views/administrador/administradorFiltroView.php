@@ -1,8 +1,10 @@
 <div class="col-sm-12">
     <div class="form-group well-sm">
-        <div class="form-group">
-                <button type='button' class="btn btn-success btn-lg pull-right" onClick="editar()">Novo Usuário</button>
-        </div>
+            <div class="form-group">
+                <form action="<?= base_url() ?>administrador/cadastrar" class="well" method="POST">
+                    <input type="submit" value="Novo Usuário" class="btn btn-primary">
+                </form>
+            </div> 
         <form class="form-horizontal well" role="form">
             <h3><strong>Filtro</strong></h3>
             <hr>
@@ -22,6 +24,7 @@
                 <label class="col-sm-2 control-label">Tipo de Usuário</label>
                 <div class="col-sm-3">
                     <select id="" class="form-control">
+                        <option></option>
                         <option>Administrador</option>
                         <option>Gerente</option>
                         <option>Coordenador</option>
@@ -60,5 +63,5 @@
         email: $("#email").val(),
         tipoUsuario: $('#tipoUsuario').val()
      });
-     }
+ }
 </script>

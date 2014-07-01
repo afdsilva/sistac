@@ -4,14 +4,14 @@
         <div class="form-group well-sm">
             <form class="well">
                 <div class="container">
-                    <b><label style="font-size:14pt" for="lblIdentificacao">Identificações</label></b>
+                    <b><label style="font-size:14pt" for="lblIdentificacao">Identifique-se</label></b>
                     <div class="form-group">
                         <label for="lblNome">Nome</label>
-                        <input type="text" id="txtNome" class="form-control " placeholder="">
+                        <input type="text" id="txtNome" class="form-control " placeholder="Insira seu nome">
                         </div>
-                    <div class="form-group ">
+                    <div clas s="form-group ">
                         <label for="lblCPF">CPF</label>
-                        <input type="text" id="txtCPF" class="form-control" placeholder="">
+                        <input type="text" id="txtCPF" class="form-control" placeholder="Insira seu CPF">
                     </div>
 
                     <div class="form-group">
@@ -20,14 +20,18 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <?php
-                                        echo("<select> <option value=0></option>");
-                                        foreach ($cursos as $curso) {
-                                            echo("<option value=".$curso->id.">".$curso->nome."</option>");
-                                            //echo '<li><a onClick="selecionaTipoUsuario(\'' . $tipoUsuario->id . ',' . $tipoUsuario->descricao . '\')">' . $tipoUsuario->descricao . ' </a></li>';
-                                        }
-                                        echo("</select>");
-                                    ?>
+                                    <div class="input-group-btn">
+                                        <a id="botaoCurso" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Selecione o curso <span class="caret"></span></a>
+                                        <a id="idCurso"  hidden="true"></a>
+                                        <ul class="dropdown-menu">
+                                            <?php
+                                            foreach ($cursos as $curso) {
+                                                echo '<li><a onClick="selecionaCurso(\'' . $curso->id . ',' . $curso->nome . '\')">' . $curso->nome . ' </a></li>';
+                                            }
+                                            ?>
+
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>  
                         </div>
@@ -39,31 +43,33 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <?php
-                                        echo("<select> <option value=0></option>");
-                                        foreach ($tipoUsuario as $tipoUsuario) {
-                                            echo("<option value=".$tipoUsuario->id.">".$tipoUsuario->descricao."</option>");
-                                            //echo '<li><a onClick="selecionaTipoUsuario(\'' . $tipoUsuario->id . ',' . $tipoUsuario->descricao . '\')">' . $tipoUsuario->descricao . ' </a></li>';
-                                        }
-                                        echo("</select>");
-                                    ?>
+                                    <div class="input-group-btn">
+                                        <a id="botaoCurso" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                        <a id="idCurso"  hidden="true"></a>
+                                        <ul class="dropdown-menu">
+                                            <?php
+                                            foreach ($cursos as $curso) {
+                                                echo '<li><a onClick="selecionaCurso(\'' . $curso->id . ',' . $curso->nome . '\')">' . $curso->nome . ' </a></li>';
+                                            }
+                                            ?>
 
-                                    
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>  
                         </div>
                     </div>
                     
-                   
+                    <hr>
                     <div class="container">
                         <b><label style="font-size:14pt" for="acesso">Acesso ao Usuário</label></b>
                         <div class="form-group">
                             <label for="lblNome">Email</label>
-                            <input type="text" class="form-control" id="txtEmail" placeholder="Inserir email do @inf.ufpel.edu.br">
+                            <input type="text" class="form-control" id="txtEmail" placeholder="Insira seu email do @inf.ufpel.edu.br">
                         </div>
                         <div class="form-group">
                             <label for="lblCPF">Senha</label>
-                            <input type="password" class="form-control" id="txtSenha" placeholder="Senha para acesso">
+                            <input type="password" class="form-control" id="txtSenha" placeholder="Sua senha para acesso">
                         </div>
                     </div>
 
@@ -80,12 +86,6 @@
         var curso = $parametros.split(',');
         $('#idCurso').html(curso[0]);
         $('#botaoCurso').html(curso[1] + ' <span class="caret"></span>');
-    }
-    
-    function selecionaTipoUsuario($parametros) {
-        var tipoUsuario = $parametros.split(',');
-        $('#idTipoUsuario').html(curso[0]);
-        $('#botaoTipoUsuario').html(curso[1] + ' <span class="caret"></span>');
 
     }
 
