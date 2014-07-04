@@ -21,8 +21,28 @@
       <nav class="collapse navbar-collapse">
         <ul class="nav nav-pills">
           <li><a href="<?= base_url() ?>"><img src="<?= base_url() ?>static/img/sistac-black.png"></a></li>
-          <li><p><a class="btn btn-success" href="cadastrar" style="display: block;">Cadastrar</a></p></li>
-          <li><p><a class="btn btn-primary" href="login" style="display: block;">Login</a></p></li>
+          <?php if(isset($logged) && $logged):?>
+            <li>
+              <a href="<?= base_url() ?>" class="glyphicon glyphicon-log-out">&nbsp;Sair&nbsp;</a>
+            </li>
+            <li>
+              <a href="<?= base_url() ?>" class="glyphicon glyphicon-question-sign">&nbsp;Ajuda&nbsp;</a>
+            </li>
+            <li>
+              <a href="<?= base_url() ?>" class="glyphicon glyphicon-home">&nbsp;Home&nbsp;</a>
+            </li>
+          <?php else: ?>
+            <li>
+              <p>
+                <a class="btn btn-success" href="cadastrar" style="display: block;">Cadastrar</a>
+              </p>
+            </li>
+            <li>
+              <p>
+                <a class="btn btn-primary" href="login" style="display: block;">Login</a>
+              </p>
+            </li>
+          <?php endif ?>
         </ul>
       </nav>
     </div>

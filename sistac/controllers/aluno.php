@@ -36,16 +36,16 @@ class Aluno extends CI_Controller {
 		$this->data['horasPesquisa'] = 0;
 		$this->data['horasExtensao'] = 0;
 		$this->data['horasEnsino'] = 0;
+        $this->data['logged'] = true;
         // monta view
         //==============================================================
-        $this->load->view('include/headerAreaRestrita');
+        $this->load->view('include/header', $this->data);
         $this->load->view('include/navigation', $this->navigation);
         $this->load->view('aluno/alunoView', $this->data);
         $this->load->view('include/footer');
     }
 
     function pedido() {
-
         if (!($idAluno = $this->session->userdata('user')->cpf))
             redirect('/login/', 'refresh');
         
@@ -70,10 +70,11 @@ class Aluno extends CI_Controller {
         $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
         $this->data['certificados'] = $this->alunoModel->getCertificados($idAluno); 
         
-        if (!$this->data['pedido'])
-        	redirect('/aluno/', 'refresh');
+        if(!$this->data['pedido']) redirect('/aluno/', 'refresh');
+
+        $this->data['logged'] = true;
         
-        $this->load->view('include/headerAreaRestrita');
+        $this->load->view('include/header', $this->data);
         $this->load->view('include/navigation', $this->navigation);
         $this->load->view('aluno/alunoPedidoEditarView', $this->data);
         $this->load->view('include/footer');

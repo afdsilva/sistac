@@ -1,15 +1,16 @@
-<div class="container">
-	<div class="masthead">
+<div class="row container-fluid nameless">
 	<h5>
-	<?php 
-		echo anchor('/','Home');
+	<?php
+		$temp = anchor('./','Home');
 		$n = '/';
-		foreach ($navigation as $key => $nav ) {
-			$n = $n . $key . '/';
-			echo ' > '.anchor($n,$nav);
+
+		foreach($navigation as $key => $nav ){
+			$n .= $key . '/';
+
+			$temp .= ' > ' . anchor($n,$nav);
 		}
 
+		echo $temp;
 	?>
-	
 	</h5>
-	</div>
+</div>
