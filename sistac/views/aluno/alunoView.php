@@ -19,7 +19,7 @@
     <?php endif ?>
   </div>
 
-  <div class="row nameless" id="resumo" style="display: none;">
+  <div class="row nameless form-btn-label" id="resumo" style="display: none;">
     <?php
       $attributes = array('class' => 'form-horizontal', 'role' => 'form');
 
@@ -38,7 +38,7 @@
   <div class="row">
     <h4>Resumo de Atividades: </h4>
 
-    <div class="col-xs-12 col-md-8">
+    <div>
       <?php
       $this->table->set_template(array('table_open' => '<table class="table table-hover">'));
       $this->table->set_heading(array('Cod', 'Descricao', 'Carga Horaria', 'Tipo Atividade', 'Categoria','Certificado'));

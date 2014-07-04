@@ -3,55 +3,52 @@
     <div class="row">
         <div class="form-group well-sm">
             <form class="well">
-                <div class="container">
-                    <b><label style="font-size:14pt" for="lblIdentificacao">Identifique-se</label></b>
-                    <div class="form-group">
-                        <label for="lblNome">Nome</label>
-                        <input type="text" id="txtNome" class="form-control " placeholder="Insira seu nome">
-                        </div>
-                    <div clas s="form-group ">
-                        <label for="lblCPF">CPF</label>
-                        <input type="text" id="txtCPF" class="form-control" placeholder="Insira seu CPF">
+              <b><label style="font-size:14pt" for="lblIdentificacao">Identifique-se</label></b>
+              <div class="form-group">
+                <label for="lblNome">Nome</label>
+                <input type="text" id="txtNome" class="form-control " placeholder="Insira seu nome">
+              </div>
+              <div clas s="form-group ">
+                <label for="lblCPF">CPF</label>
+                <input type="text" id="txtCPF" class="form-control" placeholder="Insira seu CPF">
+              </div>
+
+              <div class="form-group">
+                <label for="lblCurso">Curso</label>
+
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <div class="input-group-btn">
+                        <a id="botaoCurso" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Selecione o curso <span class="caret"></span></a>
+                        <a id="idCurso"  hidden="true"></a>
+                        <ul class="dropdown-menu">
+                          <?php
+                          foreach ($cursos as $curso) {
+                            echo '<li><a onClick="selecionaCurso(\'' . $curso->id . ',' . $curso->nome . '\')">' . $curso->nome . ' </a></li>';
+                          }
+                          ?>
+
+                        </ul>
+                      </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="lblCurso">Curso</label>
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <a id="botaoCurso" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Selecione o curso <span class="caret"></span></a>
-                                        <a id="idCurso"  hidden="true"></a>
-                                        <ul class="dropdown-menu">
-                                            <?php
-                                            foreach ($cursos as $curso) {
-                                                echo '<li><a onClick="selecionaCurso(\'' . $curso->id . ',' . $curso->nome . '\')">' . $curso->nome . ' </a></li>';
-                                            }
-                                            ?>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>  
-                        </div>
-                    </div>
-
-                    <hr>
-                    <div class="container">
-                        <b><label style="font-size:14pt" for="acesso">Acesso ao Usuário</label></b>
-                        <div class="form-group">
-                            <label for="lblNome">Email</label>
-                            <input type="text" class="form-control" id="txtEmail" placeholder="Insira seu email do @inf.ufpel.edu.br">
-                        </div>
-                        <div class="form-group">
-                            <label for="lblCPF">Senha</label>
-                            <input type="password" class="form-control" id="txtSenha" placeholder="Sua senha para acesso">
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn btn-success" onclick="enviar()">Enviar</button>
+                  </div>  
                 </div>
+              </div>
+
+              <div style="padding: 10px 0 0 0;border-top: 1px solid #999;">
+                <b><label style="font-size:14pt" for="acesso">Acesso ao Usuário</label></b>
+                <div class="form-group">
+                  <label for="lblNome">Email</label>
+                  <input type="text" class="form-control" id="txtEmail" placeholder="Insira seu email do @inf.ufpel.edu.br" pattern="^[\w]+@inf\.ufpel\.edu\.br">
+                </div>
+                <div class="form-group">
+                  <label for="lblCPF">Senha</label>
+                  <input type="password" class="form-control" id="txtSenha" placeholder="Sua senha para acesso">
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-success" onclick="enviar()">Cadastrar</button>
             </form>
         </div>
     </div>
@@ -69,7 +66,7 @@
 
     function enviar() {
 
-        $.post('<?= base_url() ?>cadastrar/salvar',
+        $.post('cadastrar/salvar',
                 {
                     nome: $("#txtNome").val(),
                     cpf: $("#txtCPF").val(),

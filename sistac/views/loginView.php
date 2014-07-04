@@ -3,7 +3,7 @@
     <form action="<?= base_url() ?>login/validate" class="well" method="POST">
         <div class="input-group">
             <span class="input-group-addon glyphicon glyphicon-envelope"></span>    
-            <input class="form-control" type="text" name="username" style="width: 240px;"  placeholder="Email" >
+            <input class="form-control" type="text" name="username" style="width: 240px;"  placeholder="Email do @inf.ufpel.edu.br"  pattern="^[\w]+@inf\.ufpel\.edu\.br">
         </div>
         <div class="input-group">
             <span class="input-group-addon glyphicon glyphicon-lock"></span>
