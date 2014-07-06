@@ -1,5 +1,5 @@
 <div class="container col-md-12">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb nameless">
         <li><b>Gerente</b></li>
         <li><a href="<?= base_url() ?>gerente">Filtro</a></li>
     </ol>
@@ -7,7 +7,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Filtro de Alunos</h3>
+            <h3 class="panel-title"><b>Filtro de Alunos</b></h3>
         </div>
         <div class="panel-body">
             <form id="formFiltrar">
@@ -78,21 +78,19 @@
                 <div class="form-group">
                     <button id="filtrar" type='button' class="btn btn-success btn-lg pull-right">Filtrar</button>
                 </div>
-                <div class="form-group">
-                    <button type='button' class="btn btn-success btn-lg pull-right" onclick='editar()'>Editar</button>
-                </div>
+
             </form>        
         </div>
     </div>   
 
 
 
-    <?php echo jTableStart('pedidos', 'Pedidos', 'gerente/listaPedidos', '', '', '', array('selecting')) ?>
+    <?php echo jTableStart('pedidos', 'Pedidos', 'gerente/listaPedidos', '', '', '', array('selecting', 'multiselect', 'selectingCheckboxes')) ?>
         <?php echo jPanelAddID(true, false, false, false) ?>
         <?php echo jPanelAddCampo('nome', 'Nome', '', '30%', true, false, true) ?>
         <?php echo jPanelAddCampo('curso', 'Curso', '', '25%', true, false, true) ?>
         <?php echo jPanelAddCampo('anoSemestre', 'Ano/Semestre', '', '15%', true, false, true) ?>
-        <?php echo jPanelAddCampo('status', 'Status', '', '25%', true, false, true) ?>
+        <?php echo jPanelAddCampo('status', 'Status', '', '25%', true, false, true) ?> 
     <?php echo jTableEnd() ?>
 </div>
 <script>

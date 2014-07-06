@@ -54,7 +54,27 @@ class AtividadeModel extends CI_Model {
 
         $this->db->insert($this->table, $insert);
     }
-
+    
+    function alterarAtividade($atividade){
+        
+        $this->db->trans_start();
+            $update = array(
+                'descricao' => $atividade['descricao'],
+                'codTipoAtividade' => $atividade['tipoAtividade'],
+                'codCategoria' => $atividade['categoria'],
+                'unidadeAtividade' => $atividade['unidadeAtividade'],
+                'validaAtividade' => $atividade['validaAtividade']);   
+            $this->db->where('id', $atividade['id']);
+            $this->db->update('atividade', $update); 
+        $this->db->trans_complete();
+        
+        if($this->db->trans_status() === FALSE) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
     function deleteAtividade($idPedido, $idAtividade) {
         $this->db->delete($this->table, array('codPedido' => $idPedido, 'id' => $idAtividade));
     }
@@ -86,8 +106,12 @@ class AtividadeModel extends CI_Model {
 
     function getAtividadesAluno($pedidoId, $get) {
 
-        $this->db->select("a.id, a.descricao, c.nome as categoria, ta.nome as tipoAtividade, "
-                . "a.unidadeAtividade as horas, ta.maxHoras as aproveitamento, a.validaAtividade", false);
+        $this->db->select("a.id, a.codPedido as pedidoId, a.descricao, c.nome as categoria, "
+                . "ta.nome as tipoAtividade, "
+                . "a.unidadeAtividade as horas, ta.maxHoras as aproveitamento, "
+                . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' end as validaAtividade,"
+                . " ta.id as tipoAtividadeId, "
+                . "c.id as categoriaId", false);
         $this->db->from('atividade as a');
         $this->db->join('categoria as c', 'c.id = a.codCategoria');
         $this->db->join('tipoAtividade as ta', 'ta.id = a.codTipoAtividade');

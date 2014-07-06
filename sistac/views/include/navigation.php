@@ -7,7 +7,7 @@
 		foreach($navigation as $key => $nav ){
 			$n .= $key . '/';
 
-			$temp .= ' > ' . anchor($n,$nav);
+			$temp .= ' / ' . anchor($n,$nav);
 		}
 
 		echo $temp;
