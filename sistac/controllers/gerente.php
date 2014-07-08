@@ -60,10 +60,8 @@ class Gerente extends CI_Controller {
             $data['aluno'] = $this->pedidoModel->getPedidoById($pedidoId);
             $data['pedidoId'] = $pedidoId;
             
-            
-            
-            $atividades = $this->atividadeModel->getAtividadesAluno($pedidoId, $_GET)['Records'];
-            
+            $atividades = $this->atividadeModel->refreshAluno($pedidoId);
+
             $pesquisa = $ensino = $extensao = 0;
             $flag = true;
             
@@ -77,7 +75,7 @@ class Gerente extends CI_Controller {
                     $ensino += $atividade->horas;
                 } elseif($atividade->categoriaId == 3){
                     $extensao += $atividade->horas;
-                }
+                }      
                 if($atividade->validaAtividade != 'Sim'){
                     $flag = false;
                 }
@@ -110,8 +108,6 @@ class Gerente extends CI_Controller {
                     $data['resumo'] = $obj;
             }
             
-            
-            
             $this->load->view('include/header', $data);
             $this->load->view('gerente/gerenteView', $data);
             $this->load->view('include/footer');
@@ -131,7 +127,6 @@ class Gerente extends CI_Controller {
         
         $ret = $this->atividadeModel->alterarAtividade($atividade);
         
-        log_message('error', $ret);
         
         if($ret == true){
             echo 'sucesso';
@@ -139,6 +134,20 @@ class Gerente extends CI_Controller {
             echo 'falha';
         }
         
+    }
+    
+    function alterarStatus(){
+        
+        $status['codStatus'] = $_POST['status'];
+        $status['codPedido'] = $_POST['pedidoId'];
+        
+        $ret = $this->pedidoModel->alterarStatus($status);
+        
+        if($ret == true){
+            echo 'sucesso';
+        } else {
+            echo 'falha';
+        }
     }
     
 

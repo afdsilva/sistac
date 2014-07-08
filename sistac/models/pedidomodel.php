@@ -97,5 +97,21 @@ class PedidoModel extends CI_Model {
         $this->db->insert($this->table, $data);
         return $matricula;
     }
+    
+    public function alterarStatus($status){
+        
+        $this->db->trans_start();
+            $update = array(
+                'codStatus' => $status['codStatus']);   
+            $this->db->where('id', $status['codPedido']);
+            $this->db->update('pedido', $update); 
+        $this->db->trans_complete();
+        
+        if($this->db->trans_status() === FALSE) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 }

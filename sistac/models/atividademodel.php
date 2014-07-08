@@ -103,30 +103,69 @@ class AtividadeModel extends CI_Model {
     function getLastIdAtividade($idPedido) {
         return $this->db->select_max('id')->where('codPedido', $idPedido)->get('atividade')->row() + 1;
     }
-
+    
+    function getTotalAtividades($pedidoId){
+        $this->db->select('*');
+        $this->db->where('codPedido',$pedidoId);
+        
+        $retorno =  $this->db->get('atividade');
+        return $retorno->num_rows();
+    }
+    /**
+     * metodo que busca no banco as atividades dos alunos
+     * este metodo é utilizaso para fazer os calculos do sistema
+     * @param type $pedidoId
+     * @return string
+     * 
+     */
+    function refreshAluno($pedidoId){
+        $this->db->trans_start();
+            $this->db->select("a.id, a.codPedido as pedidoId, a.descricao, c.nome as categoria, "
+                    . "ta.nome as tipoAtividade, "
+                    . "a.unidadeAtividade as horas, ta.maxHoras as aproveitamento, "
+                    . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' end as validaAtividade,"
+                    . " ta.id as tipoAtividadeId, "
+                    . "c.id as categoriaId", false);
+            $this->db->from('atividade as a');
+            $this->db->join('categoria as c', 'c.id = a.codCategoria');
+            $this->db->join('tipoAtividade as ta', 'ta.id = a.codTipoAtividade');
+            $this->db->where('a.codPedido', $pedidoId);
+            $data = $this->db->get()->result();
+        $this->db->trans_complete();
+        
+        if ($this->db->trans_status() === FALSE) {
+            $data['Result'] = "ERROR";
+        } else {
+            $data['Result'] = "OK";
+        }
+        
+        return $data;
+    }
+    
     function getAtividadesAluno($pedidoId, $get) {
+        $data['TotalRecordCount'] = $this->getTotalAtividades($pedidoId);
+            $this->db->trans_start();
+            $this->db->select("a.id, a.codPedido as pedidoId, a.descricao, c.nome as categoria, "
+                    . "ta.nome as tipoAtividade, "
+                    . "a.unidadeAtividade as horas, ta.maxHoras as aproveitamento, "
+                    . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' end as validaAtividade,"
+                    . " ta.id as tipoAtividadeId, "
+                    . "c.id as categoriaId", false);
+            $this->db->from('atividade as a');
+            $this->db->join('categoria as c', 'c.id = a.codCategoria');
+            $this->db->join('tipoAtividade as ta', 'ta.id = a.codTipoAtividade');
+            $this->db->where('a.codPedido', $pedidoId);
 
-        $this->db->select("a.id, a.codPedido as pedidoId, a.descricao, c.nome as categoria, "
-                . "ta.nome as tipoAtividade, "
-                . "a.unidadeAtividade as horas, ta.maxHoras as aproveitamento, "
-                . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' end as validaAtividade,"
-                . " ta.id as tipoAtividadeId, "
-                . "c.id as categoriaId", false);
-        $this->db->from('atividade as a');
-        $this->db->join('categoria as c', 'c.id = a.codCategoria');
-        $this->db->join('tipoAtividade as ta', 'ta.id = a.codTipoAtividade');
-        $this->db->where('a.codPedido', $pedidoId);
+            if (!empty($get['jtSorting'])) {
+                $pieces = explode(" ", @$get['jtSorting']);
+                $this->db->order_by($pieces[0],$pieces[1]);
+            }
 
-        if (!empty($get['jtSorting'])) {
-            $pieces = explode(" ", @$get['jtSorting']);
-            $this->db->order_by($pieces[0], $pieces[1]);
-        }
+            if (@$get['jtStartIndex'] !== '' && @$get['jtPageSize'] !== '') {
+                $this->db->limit(@$get['jtPageSize'],@$get['jtStartIndex']);
+            }
 
-        if (@$get['jtStartIndex'] != '' && @$get['jtPageSize'] != '') {
-            $this->db->limit($get['jtStartIndex'] + ',' + $get['jtPageSize']);
-        }
-
-        $data['Records'] = $this->db->get()->result();
+            $data['Records'] = $this->db->get()->result();
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {
