@@ -1,5 +1,5 @@
-<div class="col-sm-12">
-    <div class="form-group well-sm">
+
+    <div class="form-group">
             <div class="form-group">
                 <form action="<?= base_url() ?>administrador/cadastrar" class="well" method="POST">
                     <input type="submit" value="Novo Usuário" class="btn btn-primary">
@@ -69,7 +69,6 @@
         //echo jPanelAddCampo('descricao', 'Tipo de Usuário', '', '20%', true, false, false); 
         //echo jTableEnd() 
     ?>
-</div>
 <script>
     
     

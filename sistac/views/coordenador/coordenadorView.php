@@ -1,9 +1,3 @@
-<div class="container col-md-12">
-    <ol class="breadcrumb">
-        <li><b>Coordenador</b></li>
-        <li><a href="<?= base_url() ?>coordenador">Filtro</a></li>
-    </ol>
-
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Filtro de Alunos</h3>

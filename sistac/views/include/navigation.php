@@ -1,16 +1,16 @@
-<div class="row container-fluid nameless">
-	<h5>
+<div style="margin-bottom: 20px;">
+	<ol class="breadcrumb">
 	<?php
-		$temp = anchor('./','Home');
-		$n = '/';
+		$temp = '<li>' . anchor('./', 'Home') . '</li>';
 
-		foreach($navigation as $key => $nav ){
-			$n .= $key . '/';
+		foreach($navigation as $key => $nav){
+			$n = '/' . $key . '/';
 
-			$temp .= ' / ' . anchor($n,$nav);
+			if(is_array($nav) && $nav['active']) $temp .= '<li class="active">' . $nav['name'] . '</li>';
+			else $temp .= '<li>' . anchor($key, $nav) . '</li>';
 		}
 
 		echo $temp;
 	?>
-	</h5>
+	</ol>
 </div>

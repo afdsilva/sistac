@@ -1,15 +1,4 @@
 
-
-<div class="container col-md-12">
-    <ol class="breadcrumb">
-        <li><b>Gerente</b></li>
-        <li><a href="<?= base_url() ?>gerente">Filtro</a></li>
-        <li class="active">Editar</li>
-        <li class="active"><?php echo $pedidoId; ?></li>
-
-    </ol>
-
-
     <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-user"><b> <?php echo $aluno->nome ?> </b></span>

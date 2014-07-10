@@ -1,4 +1,4 @@
-<div class="row container-fluid">
+<div class="container-fluid">
   <div id="summary-of-hours" class="row">
     <h3>Resumo de horas</h3>
     <ul>

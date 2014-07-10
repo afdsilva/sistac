@@ -1,7 +1,6 @@
 <?php
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Aluno extends CI_Controller {
 
@@ -10,8 +9,6 @@ class Aluno extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        if (!($idAluno = $this->session->userdata('user')->cpf))
-            redirect('/login/', 'refresh');
         
         $this->load->model('alunoModel');
         $this->load->model('cursoModel');
@@ -22,15 +19,15 @@ class Aluno extends CI_Controller {
     }
 
     function index($id = '') {
-        if (!($idAluno = $this->session->userdata('user')->cpf))
-            redirect('/login/', 'refresh');
+        if(!$this->session->userdata('user')) redirect('login', 'refresh');
+
         $this->data['error'] = $this->session->userdata('error');
         
         $this->session->set_userdata(array('error' => ""));
-        $aluno = $this->alunoModel->getAluno($idAluno);
+        $aluno = $this->alunoModel->getAluno($this->session->userdata('user')->cpf);
         $this->navigation['navigation']['aluno'] = $aluno->nome;
         $this->data['aluno'] = $aluno;
-        $this->data['pedido'] = $this->alunoModel->getPedido($idAluno);
+        $this->data['pedido'] = $this->alunoModel->getPedido($this->session->userdata('user')->cpf);
         $idPedido = (isset($this->data['pedido']->id) ? $this->data['pedido']->id : '');
         $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
 		$this->data['horasPesquisa'] = 0;
@@ -46,16 +43,18 @@ class Aluno extends CI_Controller {
     }
 
     function pedido() {
-        if (!($idAluno = $this->session->userdata('user')->cpf))
-            redirect('/login/', 'refresh');
+        if(!$this->session->userdata('user')) redirect('login', 'refresh');
         
         //monta navegacao e header
-        $this->navigation['navigation']['pedido'] = 'Pedido';
-        $this->data['aluno'] = $aluno = $this->alunoModel->getAluno($idAluno);
-        $this->navigation['navigation']['aluno'] = $aluno->nome;
-        $this->data['pedido'] = $pedido = $this->alunoModel->getPedido($idAluno);
+        
+        $this->data['aluno'] = $aluno = $this->alunoModel->getAluno($this->session->userdata('user')->cpf);
+        $this->data['pedido'] = $pedido = $this->alunoModel->getPedido($this->session->userdata('user')->cpf);
+
         $idPedido = $pedido->id;
-        $this->navigation['navigation'][$idPedido] = $idPedido;
+
+        $this->navigation['navigation']['aluno'] = $aluno->nome;
+        $this->navigation['navigation']['pedido'] = array('name' => 'Pedido', 'active' => true);
+        $this->navigation['navigation']['aluno/pedido'] = $idPedido;
         
         $tipoAtividades = $this->tipoAtividadeModel->getTipoAtividades();
         $this->data['tipoAtividades'][0] = "Selecione um Tipo de Atividade";
@@ -68,7 +67,7 @@ class Aluno extends CI_Controller {
         	$this->data['categorias'][$categoria->id] = $categoria->nome;
         }
         $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
-        $this->data['certificados'] = $this->alunoModel->getCertificados($idAluno); 
+        $this->data['certificados'] = $this->alunoModel->getCertificados($this->session->userdata('user')->cpf); 
         
         if(!$this->data['pedido']) redirect('/aluno/', 'refresh');
 
@@ -89,6 +88,7 @@ class Aluno extends CI_Controller {
         $config['allowed_types'] = '*';
         $config['upload_path'] = './uploads/';
         $this->load->library('upload', $config);
+
         if (!$this->upload->do_upload('novoPedido')) {
         	$error = array('error' => $this->upload->display_errors());
             $this->session->set_userdata(array('error' => $error));

@@ -25,13 +25,13 @@
           <li><a href="<?= base_url() ?>"><img src="<?= base_url() ?>static/img/sistac-black.png"></a></li>
           <?php if(isset($logged) && $logged):?>
             <li>
-              <a href="<?= base_url() ?>" class="glyphicon glyphicon-log-out">&nbsp;Sair&nbsp;</a>
+              <a href="<?= base_url() ?>logout" class="glyphicon glyphicon-log-out">&nbsp;Sair&nbsp;</a>
             </li>
             <li>
               <a href="<?= base_url() ?>" class="glyphicon glyphicon-question-sign">&nbsp;Ajuda&nbsp;</a>
             </li>
             <li>
-              <a href="<?= base_url() ?>" class="glyphicon glyphicon-home">&nbsp;Home&nbsp;</a>
+              <a href="<?= base_url() ?>home" class="glyphicon glyphicon-home">&nbsp;Home&nbsp;</a>
             </li>
           <?php else: ?>
             <li>
