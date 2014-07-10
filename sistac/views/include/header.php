@@ -18,31 +18,27 @@
   <link href="<?php echo base_url('assets/css/custom.css') ?>" rel="stylesheet">
 </head>
 <body>
-  <header id="header" class="navbar navbar-default navbar-static-top">
-    <div class="container-fluid">
+  <header id="header" class="">
+    <div class="container-fluid navbar navbar-default navbar-static-top">
       <nav class="collapse navbar-collapse" style="display: block !important;">
         <ul class="nav nav-pills">
           <li><a href="<?= base_url() ?>"><img src="<?= base_url() ?>static/img/sistac-black.png"></a></li>
           <?php if(isset($logged) && $logged):?>
             <li>
-              <a href="<?= base_url() ?>logout" class="glyphicon glyphicon-log-out">&nbsp;Sair&nbsp;</a>
+              <a href="<?= base_url() ?>logout" class="glyphicon glyphicon-log-out">&nbsp;Sair</a>
             </li>
             <li>
-              <a href="<?= base_url() ?>" class="glyphicon glyphicon-question-sign">&nbsp;Ajuda&nbsp;</a>
+              <a href="<?= base_url() ?>" class="glyphicon glyphicon-question-sign">&nbsp;Ajuda</a>
             </li>
             <li>
-              <a href="<?= base_url() ?>home" class="glyphicon glyphicon-home">&nbsp;Home&nbsp;</a>
+              <a href="<?= base_url() ?>home" class="glyphicon glyphicon-home">&nbsp;Home</a>
             </li>
           <?php else: ?>
             <li>
-              <p>
-                <a class="btn btn-success" href="cadastrar" style="display: block;">Cadastrar</a>
-              </p>
+              <a class="glyphicon glyphicon-user" href="<?= base_url() ?>cadastrar">&nbsp;Cadastrar</a>
             </li>
             <li>
-              <p>
-                <a class="btn btn-primary" href="login" style="display: block;">Login</a>
-              </p>
+              <a class="glyphicon glyphicon-lock" href="<?= base_url() ?>login">&nbsp;Login</a>
             </li>
           <?php endif ?>
         </ul>

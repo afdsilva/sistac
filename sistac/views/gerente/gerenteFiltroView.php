@@ -87,8 +87,6 @@
     <?php echo jPanelAddCampo('status', 'Status', '', '25%', true, false, true) ?> 
     <?php echo jTableEnd() ?>
     <script>
-
-
       $('#filtrar').click(function() {
         $('#pedidos ').jtable('load', {
           nomeAluno: $('#nomeAluno').val(),
@@ -116,6 +114,8 @@
           dialogBlogDialogoOpen('default', 'default');
           break;
         }
+
+        containerSize();
       }
 
       function getOnClick($value) {

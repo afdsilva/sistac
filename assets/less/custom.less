@@ -1,11 +1,23 @@
 // html, body {height: 100%;}
  
-// body > #container {height: auto; min-height: 100%;}
+body {
+	margin-top: 100px;
+}
+
+#container {
+	visibility: hidden;
+}
 
 //	Header
 	#header {
-		height: 65px;
-		margin-top: 15px;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 80px;
+		padding-top: 15px;
+		background-color: white;
+		z-index: 9999;
 		nav {
 			ul {
 				height: 64px;
@@ -118,7 +130,7 @@
 
 //	Home
 	#home {
-		margin-top: 150px;
+		margin-top: 50px;
 	}
 
 	#carousel {
@@ -136,7 +148,7 @@
 
 	.content {
 		& > header {
-			border-bottom: 1px solid #000;
+			border-bottom: 1px solid #EEEEEE;
 			& > p {
 				font-size: 48px;
 				color: #000;
@@ -197,7 +209,7 @@
 	#footer {
 		height: 67px;
 		margin: 15px 0 0 0;
-		border-top: 1px solid #000;
+		border-top: 1px solid #EEEEEE;
 		& > ul {
 			list-style: none;
 			& > li {
