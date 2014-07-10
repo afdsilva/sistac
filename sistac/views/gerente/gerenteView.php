@@ -88,6 +88,7 @@
             <form id="formEditarAtividade">
                 <input type="hidden" class="form-control" id="id" value="">
                 <input type="hidden" class="form-control" id="pedidoId" value="<?php echo $pedidoId; ?>">
+                <input type="hidden" class="form-control" id="aproveitamento" value="">
                 <div class="form-group">
                     <label for="descricao" class="col-sm-2 control-label">Descrição</label>
                     <div class="col-sm-10">
@@ -152,7 +153,7 @@
             </form>
         </div>
     </div>
-    <button class="btn btn-primary" data-toggle="modal" data-target="#sucesso">Small modal</button>
+   
     <div class="modal fade" id="sucesso" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -215,10 +216,11 @@
             document.getElementById("id").value = $value.id;
             document.getElementById("pedidoId").value = $value.pedidoId;
             document.getElementById("descricao").value = $value.descricao;
+            document.getElementById("unidadeAtividade").value = $value.horas;
+            document.getElementById("aproveitamento").value = $value.aproveitamento;    
             $('#categoria').val($value.categoriaId).change();
             $('#tipoAtividade').val($value.tipoAtividadeId).change();
-            document.getElementById("unidadeAtividade").value = $value.horas;
-            $('#validaAtividade').val($value.validaAtividade).change();
+            $('#validaAtividade').val($value.validaAtividade).change();  
         }
 
         function salvar() {
@@ -230,9 +232,11 @@
                         categoria: $('#categoria').val(),
                         tipoAtividade: $('#tipoAtividade').val(),
                         unidade: $('#unidadeAtividade').val(),
-                        validaAtividade: $('#validaAtividade').val()
+                        validaAtividade: $('#validaAtividade').val(),
+                        aproveitamento: $('#aproveitamento').val()
                     },
             function(data) {
+                console.log(data);
                 if (data == 'sucesso') {
                     $('#sucesso').modal('show');
                 } else {

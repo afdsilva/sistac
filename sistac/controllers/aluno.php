@@ -120,10 +120,19 @@ class Aluno extends CI_Controller {
                 $descricao = $atividade->{'description'};
                 $unidadeAtividade = $atividade->{'time'};
                 
+                $hr = $this->tipoAtividadeModel->getTipoAtividade($tipoAtividade)->horas;
+                
+                if($unidadeAtividade > $hr){
+                   $aproveitamento = $hr;
+                } else {
+                    $aproveitamento = $unidadeAtividade;
+                }
+                
                 $pedido['descricao'] = $descricao;
                 $pedido['codTipoAtividade'] = $tipoAtividade;
                 $pedido['codCategoria'] = $categoria;
                 $pedido['unidadeAtividade'] = $unidadeAtividade;
+                $pedido['aproveitamento'] = $aproveitamento;
                 $pedido['codPedido'] = $idPedido;
                 $pedido['id'] = $i;
 

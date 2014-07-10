@@ -9,18 +9,15 @@ class Coordenador extends CI_Controller {
         parent::__construct();
         $this->load->model('coordenadorModel');
         $this->load->model('statusModel');
-        /*$this->load->model('pedidoModel');
-        $this->load->model('atividadeModel');
-        $this->load->model('categoriaModel');
-        $this->load->model('tipoAtividadeModel');
-        $this->load->model('unidadeModel');
-    */}
+        $this->load->model('pedidoModel');
+    }
     
     function index() {
         if ($this->session->userdata('user') == true) {
             if ($this->session->userdata('user')->codTipoUsuario == 3) {
+                $data['logged'] = true;
                 $data['status'] = $this->statusModel->getStatus();
-                $this->load->view('include/headerAreaRestrita');
+                $this->load->view('include/header',$data);
                 $this->load->view('coordenador/coordenadorView', $data);
                 $this->load->view('include/footer');
             } else {
@@ -30,4 +27,9 @@ class Coordenador extends CI_Controller {
             $this->redirect('login', 'refresh');
         }
     }
+    
+    function listaPedidos() {
+        print json_encode($this->pedidoModel->getPedidos($_POST, $_GET));
+    }
+    
 }

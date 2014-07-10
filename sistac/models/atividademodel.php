@@ -14,7 +14,8 @@ class AtividadeModel extends CI_Model {
 				$this->table.unidadeAtividade, 
 				$this->table.codTipoAtividade,
 				$this->table.idCertificado,
-        		certificado.descricao as certificado,
+                                $this->table.aproveitamento,
+                                 certificado.descricao as certificado,
 				$this->table.codPedido,
         		tipoAtividade.nome as tipoAtividade, 
     			$this->table.codCategoria,
@@ -31,6 +32,7 @@ class AtividadeModel extends CI_Model {
         $this->db->select("$this->table.id, "
                         . "$this->table.descricao, "
                         . "$this->table.unidadeAtividade, "
+                        . "$this->table.aproveitamento, "
                         . "$this->table.codTipoAtividade, tipoAtividade.nome, "
                         . "$this->table.codCategoria, categoria.nome,"
                         . "$this->table.arquivoURL")->
@@ -49,6 +51,7 @@ class AtividadeModel extends CI_Model {
             'codPedido' => $data['codPedido'],
             'descricao' => $data['descricao'],
             'unidadeAtividade' => $data['unidadeAtividade'],
+            'aproveitamento' => $data['aproveitamento'],
             'codTipoAtividade' => $data['codTipoAtividade'],
             'codCategoria' => $data['codCategoria']);
 
@@ -63,6 +66,7 @@ class AtividadeModel extends CI_Model {
                 'codTipoAtividade' => $atividade['tipoAtividade'],
                 'codCategoria' => $atividade['categoria'],
                 'unidadeAtividade' => $atividade['unidadeAtividade'],
+                'aproveitamento' => $atividade['aproveitamento'],
                 'validaAtividade' => $atividade['validaAtividade']);   
             $this->db->where('id', $atividade['id']);
             $this->db->update('atividade', $update); 
@@ -122,17 +126,16 @@ class AtividadeModel extends CI_Model {
         $this->db->trans_start();
             $this->db->select("a.id, a.codPedido as pedidoId, a.descricao, c.nome as categoria, "
                     . "ta.nome as tipoAtividade, "
-                    . "a.unidadeAtividade as horas, ta.maxHoras as aproveitamento, "
-                    . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' end as validaAtividade,"
+                    . "a.unidadeAtividade as horas, CASE WHEN a.unidadeAtividade > ta.horas THEN ta.horas ELSE a.unidadeAtividade END as aproveitamento, "
+                    . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' END as validaAtividade,"
                     . " ta.id as tipoAtividadeId, "
-                    . "c.id as categoriaId", false);
+                    . "c.id as categoriaId, a.aproveitamento", false);
             $this->db->from('atividade as a');
             $this->db->join('categoria as c', 'c.id = a.codCategoria');
             $this->db->join('tipoAtividade as ta', 'ta.id = a.codTipoAtividade');
             $this->db->where('a.codPedido', $pedidoId);
-            $data = $this->db->get()->result();
+            $data['Records'] = $this->db->get()->result();
         $this->db->trans_complete();
-        
         if ($this->db->trans_status() === FALSE) {
             $data['Result'] = "ERROR";
         } else {
@@ -141,13 +144,20 @@ class AtividadeModel extends CI_Model {
         
         return $data;
     }
-    
+    /**
+     * Esta função busca no banco de dados todas as atividades refrerente ao pedidoId
+     *  :: IMPORTANTE: A parte de aproveitamento é feito um calculo para gerar determinado aproveitamento de horas.
+     * 
+     * @param type $pedidoId
+     * @param type $get
+     * @return string
+     */
     function getAtividadesAluno($pedidoId, $get) {
         $data['TotalRecordCount'] = $this->getTotalAtividades($pedidoId);
             $this->db->trans_start();
             $this->db->select("a.id, a.codPedido as pedidoId, a.descricao, c.nome as categoria, "
                     . "ta.nome as tipoAtividade, "
-                    . "a.unidadeAtividade as horas, ta.maxHoras as aproveitamento, "
+                    . "a.unidadeAtividade as horas, CASE WHEN a.unidadeAtividade > ta.horas THEN ta.horas ELSE a.unidadeAtividade END as aproveitamento, "
                     . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' end as validaAtividade,"
                     . " ta.id as tipoAtividadeId, "
                     . "c.id as categoriaId", false);
