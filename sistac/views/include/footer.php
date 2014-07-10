@@ -7,7 +7,7 @@
 						<img src="<?= base_url() ?>static/img/footer-logo-sistac.jpg" alt="sistac">
 					</div>
 				</li>
-				<li class="col-md-4"><a href="#_top">Voltar ao topo</a></li>
+				<li class="col-md-4"><a href="JavaScript:void(0);" id="goToTop">Voltar ao topo</a></li>
 			</ul>
 		</footer>
 	</div><!--contaier-->

@@ -20,7 +20,7 @@
 <body>
   <header id="header" class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
-      <nav class="collapse navbar-collapse">
+      <nav class="collapse navbar-collapse" style="display: block !important;">
         <ul class="nav nav-pills">
           <li><a href="<?= base_url() ?>"><img src="<?= base_url() ?>static/img/sistac-black.png"></a></li>
           <?php if(isset($logged) && $logged):?>
@@ -50,4 +50,4 @@
     </div>
   </header>
 
-  <div class="container"><!--contaier-->
+  <div class="container" id="container"><!--contaier-->
