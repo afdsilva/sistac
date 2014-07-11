@@ -38,54 +38,48 @@
         </form>
     </div>
     
-    <?php
-    //var_dump($usuarios);
-        echo('<table border="1">'
-           . '<tr><th>Nome</th><th>Email</th><th>Tipo de Usuario</th><th> </th></tr>');
-        foreach($usuarios['Records'] as $usuario){
-            //var_dump($usuario);
-            echo('<tr>');
-            echo('<td>'.$usuario->nome.'</td>');
-            echo('<td>'.$usuario->email.'</td>');
-            echo('<td>'.$usuario->descricao.'</td>');
-            echo('<td>
-                    <form  action="'.base_url().'administrador/editar" method="POST">
-                        <input type=hidden name="cpf" value='.$usuario->cpf.'>
-                        <input type="submit" value="Editar">
-                    </form>
-                </td>');
-            echo('</tr>');
+     <?php echo jTableStart('usuarios', 'Lista Usuarios', 'administrador/listaUsuarios', '', '', '', array('selecting', 'multiselect', 'selectingCheckboxes')) ?>
+    <?php echo jPanelAddID(true, false, false, false) ?>
+    <?php echo jPanelAddCampo('nome', 'Nome', '', '30%', true, false, true) ?>
+    <?php echo jPanelAddCampo('email', 'Email', '', '25%', true, false, true) ?>
+    <?php echo jPanelAddCampo('descricao', 'Tipo de Usuário', '', '15%', true, false, true) ?>
+    <?php echo jTableEnd() ?>
+    <script>
+      $('#filtrar').click(function() {
+        $('#usuarios ').jtable('load', {
+          nomeUsuario: $('#nomeUsuario').val(),
+          email: $("#email").val(),
+          tipoUsuario: $("#tipoUsuario").val(),
+        });
+      })
+
+      function editar() {
+        var $selectedRows = $('#usuarios').jtable('selectedRows');
+        switch ($selectedRows.length) {
+          case 0:
+          dialogBlogDialogoOpen('nao tem ninguem selecionado', 'muitos selecionados');
+          break;
+          case 1:
+          $selectedRows.each(function() {
+            var record = $(this).data('record');
+            console.log(record);
+            location.href = 'administrador/editar/' + record.id;
+          });
+          break;
+          default:
+          dialogBlogDialogoOpen('default', 'default');
+          break;
         }
-        echo('</table>');
-        
-    ?>
-    
-    
-    <?php 
-        //echo jTableStart('usuario', 'Usuários', 'administrador/listaUsuarios', '', '', '', array('selecting')); 
-        //echo jPanelAddID(true, true, true);
-        //echo jPanelAddCampo('nome', 'Nome', '', '25%', true, false, true);
-        //echo jPanelAddCampo('email', 'Email', '', '25%', true, false, false);
-        //echo jPanelAddCampo('descricao', 'Tipo de Usuário', '', '20%', true, false, false); 
-        //echo jTableEnd() 
-    ?>
-<script>
-    
-    
-    function getOnClick($value) {
-        //console.log($value);
-        alert($('#usuario').getSelectedRow()); location.href = 'administrador/editar/'; //.id;
-    }
-    
-    
-     function filtrar() {
-     
-     console.log($("#nome").val());
-     
-     $('#usuario').jtable('load', {
-        nome: $("#nome").val(),
-        email: $("#email").val(),
-        tipoUsuario: $('#tipoUsuario').val()
-     });
- }
-</script>
+
+        containerSize();
+      }
+
+      function getOnClick($value) {
+        location.href = 'administrador/editar/' + $value.id;
+      }
+      function remover() {
+
+
+      }
+
+    </script>

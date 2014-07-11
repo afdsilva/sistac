@@ -41,21 +41,79 @@ class Administrador extends CI_Controller {
     $data['usuarios'] = $this->usuarioModel->getUsuarios($_POST,$_GET);
   }
 
-  function editar() {
-    if($this->session->userdata('user')->codTipoUsuario == 1){
-      $data['usuario'] = $this->usuarioModel->getUsuarioByCPF($_POST["cpf"]);
-      $data['cursos'] = $this->cursoModel->getCursos();
-      $data['tipoUsuario'] = $this->tipoUsuarioModel->getTipoUsuarios();
-      $this->data['logged'] = true;
+  //function editar() {
+    //if($this->session->userdata('user')->codTipoUsuario == 1){
+      //$data['usuario'] = $this->usuarioModel->getUsuarioByCPF($_POST["cpf"]);
+      //$data['cursos'] = $this->cursoModel->getCursos();
+      //$data['tipoUsuario'] = $this->tipoUsuarioModel->getTipoUsuarios();
+      //$this->data['logged'] = true;
 
-      $this->load->view('include/header', $this->data);
-      $this->load->view('include/navigation', $this->navigation);
-      $this->load->view('administrador/administradorEditarView', $data);
-      $this->load->view('include/footer');
-    } else {
-      $this->redirect('login', 'refresh');
+      //$this->load->view('include/header', $this->data);
+      //$this->load->view('include/navigation', $this->navigation);
+      //$this->load->view('administrador/administradorEditarView', $data);
+      //$this->load->view('include/footer');
+    //} else {
+      //$this->redirect('login', 'refresh');
+    //}
+  //}
+  function editar($usuarioId = false) {
+      if($pedidoId && $this->session->userdata('user')->codTipoUsuario == 1){
+        $data['logged'] = true;
+        $data['usuario'] = $this->usuarioModel->getUsuarioByCPF($_POST["cpf"]);
+        $data['cursos'] = $this->cursoModel->getCursos();
+        $data['tipoUsuario'] = $this->tipoUsuarioModel->getTipoUsuarios();
+
+        $usuarios = $this->usuarioModel->refreshUsuario($usuarioId)['Records'];
+
+        $pesquisa = $ensino = $extensao = 0;
+        $flag = true;
+
+        // percorre todas as atividades do aluno
+        foreach ($atividades as $atividade) {
+                // verifica se todas as atividade estao validadas      
+          if ($atividade->validaAtividade != 'Sim') {
+            $flag = false;
+          }
+        }
+            // cria o objeto para atualizar o status geral do pedido
+        $obj = array();
+        $obj = (object) $obj;
+        $obj->pesquisa = $pesquisa;
+        $obj->ensino = $ensino;
+        $obj->extensao = $extensao;
+
+            // verifica depois do loop, se o numero de atividades é suficiente 
+        if (($pesquisa >= 100) && ($ensino >= 100) && ($extensao >= 100)) {
+          if ($flag == true) {
+                    // alert verde
+            $obj->id = 1;
+            $obj->aviso = " Pedido Verificado.";
+            $data['resumo'] = $obj;
+          } else {
+                    // alert amarelo
+            $obj->id = 2;
+            $obj->aviso = " Pedido não Verificado.";
+            $data['resumo'] = $obj;
+          }
+        } else {
+                // alert vermelho
+          $obj->id = 3;
+          $obj->aviso = " Horas insuficientes.";
+          $data['resumo'] = $obj;
+        }
+
+        $this->navigation['navigation']['gerente'] = 'Gerente';
+        $this->navigation['navigation']['gerente/editar'] = array('name' => 'Editar', 'active' => true);
+        $this->navigation['navigation']['gerente/editar/' . $pedidoId] = $pedidoId;
+
+        $this->load->view('include/header', $data);
+        $this->load->view('include/navigation', $this->navigation);
+        $this->load->view('gerente/gerenteView', $data);
+        $this->load->view('include/footer');
+      } else {
+        redirect('login', 'refresh');
+      }
     }
-  }
 
   function cadastrar() {
     if ($this->session->userdata('user')->codTipoUsuario == 1) {
@@ -86,4 +144,4 @@ class Administrador extends CI_Controller {
       echo 'falha';
     }
   }
-} 
+}
