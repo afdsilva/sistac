@@ -225,7 +225,6 @@
                         aproveitamento: $('#aproveitamento').val()
                     },
             function(data) {
-                console.log(data);
                 if (data == 'sucesso') {
                     $('#sucesso').modal('show');
                 } else {

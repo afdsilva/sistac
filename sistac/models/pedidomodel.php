@@ -38,7 +38,7 @@ class PedidoModel extends CI_Model {
 
     function getPedidos($parametros, $get) {
 
-        $this->db->select("p.id, u.nome as nome, c.nome as curso, concat(p.ano,'/',p.semestre) as anoSemestre, s.nome as status", false);
+        $this->db->select("p.id, u.nome as nome, c.nome as curso, concat(p.ano,'/',p.semestre) as anoSemestre, s.nome as status, p.codStatus", false);
         $this->db->from('pedido as p');
         $this->db->join('usuario as u', 'u.cpf = p.codUsuario');
         $this->db->join('curso as c', 'c.id = u.codCurso');

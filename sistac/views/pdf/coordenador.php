@@ -14,7 +14,7 @@ foreach($alunos as $aluno){
 	$this->table->add_row(array(
 		$aluno['id'],
 		$aluno['nome'],
-		$aluno['ano'] . '/' . $aluno['semestre'],
+		$aluno['anoSemestre'],
 		$aluno['curso'],
 		$aluno['categoria'][0],
 		$aluno['categoria'][1],

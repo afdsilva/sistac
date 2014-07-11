@@ -52,10 +52,11 @@
         <p>Curso de Ciência da Computação 2010/2</p>
         <p>Conhecimento em Java, PHP, JavaScript, HTML, SQL e Visual Basic</p>
         <button class="btn btn-linkedin" onClick="linkedin(3)"><i class="fa fa-linkedin"></i></button>
-        <button class="btn btn-google-plus" onClick="plus(3)"><i class="fa fa-google-plus"></i></button>
+        <button class="btn btn-google-plus" onClick="plus(3)"><i class="fa fa-linux"></i></button>
+        <button class="btn btn-github" onClick="git(3)"><i class="fa fa-github"></i></button>
     </div>
     
-
+<i class="fa  fa-linux"></i>
    
     <div class="col-xs-2">
         <img src="<?= base_url() ?>static/img/equipe/lidi.jpg" alt="Lidi" class="img-thumbnail">
@@ -158,6 +159,38 @@ function plus($id){
         break;
     }
 }
+
+function git($id){
+    
+    switch($id){
+        case 1:
+            // Alan
+            window.location.href = "";
+        break;
+        case 2:
+            // André
+            window.location.href = "";
+        case 3:
+            // Peil
+            window.location.href = "https://github.com/andreguipeil";
+        break;
+        case 4:
+             // Lidi
+            window.location.href = "";
+        break;
+        
+        case 5:
+            // Fay
+            window.location.href = "";
+        break;
+        
+        case 6:
+                // Max
+            window.location.href = "";
+        break;
+    }
+}
+
 
 
 </script>
