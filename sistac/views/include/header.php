@@ -16,6 +16,8 @@
   <link href="<?php echo base_url('assets/css/bootstrap-theme.min.css') ?>" rel="stylesheet">
   <link href="<?php echo base_url('assets/css/font-awesome.css') ?>" rel="stylesheet">
   <link href="<?php echo base_url('assets/css/custom.css') ?>" rel="stylesheet">
+  <link href="<?php echo base_url('assets/css/social-buttons-3.css') ?>" rel="stylesheet">
+  <link href="<?php echo base_url('assets/css/social-buttons.css') ?>" rel="stylesheet">
 </head>
 <body>
   <header id="header" class="">

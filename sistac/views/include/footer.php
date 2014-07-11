@@ -4,7 +4,7 @@
 				<li class="col-md-4">
 					<div id="footer-logo">
 						<p>Desenvolvido por</p>
-						<img src="<?= base_url() ?>static/img/footer-logo-sistac.jpg" alt="sistac">
+						<img src="<?= base_url() ?>static/img/footer-logo-sistac.jpg" alt="sistac" onClick="equipe()">
 					</div>
 				</li>
 				<li class="col-md-4"><a href="JavaScript:void(0);" id="goToTop">Voltar ao topo</a></li>
@@ -19,3 +19,11 @@
   <script src="<?php echo base_url('assets/js/custom.js') ?>"></script>
 </body>
 </html>
+
+<script>
+function equipe(){
+     window.location.href = "<?= base_url() . 'home/equipe'; ?>"
+}
+
+
+</script>

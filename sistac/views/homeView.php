@@ -45,7 +45,7 @@
 		<div class="jumbotron">
 			<h1>Você sabia?</h1>
 			<p>O SISTAC foi implementado por alunos de graduação do curso de ciência da computação na disciplina de desenvolvimento de software, ministrada pelos professores Paulo Ferreira e Lisane Brisolara.<br><br>Nesta disciplina os alunos tem a possibilidade de ter uma experiência de fazer parte de uma equipe de desenvolvimento criando um ambiente mais próximo ao de uma empresa do mercado de trabalho, os alunos são estimulados a analisar, projetar, implementar e trabalhar em equipe. </p>
-			<p><a class="btn btn-primary" href="#">Equipe</a></p>
+                        <p><a class="btn btn-primary" href="<?php base_url() ?>home/equipe">Equipe</a></p>
 		</div>
 	</section>
 
