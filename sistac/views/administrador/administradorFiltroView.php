@@ -11,7 +11,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Nome</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" id="nome" placeholder="">
+                    <input type="text" class="form-control" id="nomeUsuario" placeholder="">
                 </div>
             </div>
             <div class="form-group">
@@ -23,17 +23,16 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Tipo de Usuário</label>
                 <div class="col-sm-3">
-                    <select id="" class="form-control">
-                        <option></option>
-                        <option>Admiinstrador</option>
-                        <option>Gerente</option>
-                        <option>Coordenador</option>
-                        <option>Aluno</option>
+                    <select id="tipoUsuario" class="form-control">
+                        <option> </option>
+                        <?php foreach ($tipoUsuario as $tu) { ?>
+                        <option value="<?php echo $tu->id ?>"> <?php echo $tu->descricao ?></option>
+                        <?php } ?>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <button type='button' class="btn btn-success btn-lg pull-right" onClick="filtrar()">Filtrar</button>
+                <button id="filtrar" type='button' class="btn btn-success btn-lg pull-right">Filtrar</button>
             </div>
         </form>
     </div>

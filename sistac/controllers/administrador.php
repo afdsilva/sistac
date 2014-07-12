@@ -13,12 +13,15 @@ class Administrador extends CI_Controller {
     parent::__construct();
     $this->load->model('usuarioModel');
     $this->load->model('cursoModel');
-    $this->load->model('tipoUsuarioModel');
+    $this->load->model('TipoUsuarioModel');
   }
 
   function index(){
     if($this->session->userdata('user') && $this->session->userdata('user')->codTipoUsuario == 1){
       $data['usuarios'] = $this->usuarioModel->getUsuarios($_POST,$_GET);
+      $data['tipoUsuario3009'
+          . ''] = $this->TipoUsuarioModel->getTipoUsuarios($_POST,$_GET);
+
       $this->data['logged'] = true;
 
       $this->navigation['navigation']['administrador'] = 'Administrador';
@@ -68,47 +71,22 @@ class Administrador extends CI_Controller {
         $pesquisa = $ensino = $extensao = 0;
         $flag = true;
 
-        // percorre todas as atividades do aluno
-        foreach ($atividades as $atividade) {
-                // verifica se todas as atividade estao validadas      
-          if ($atividade->validaAtividade != 'Sim') {
-            $flag = false;
-          }
-        }
-            // cria o objeto para atualizar o status geral do pedido
+        
+        // cria o objeto para atualizar o status geral do pedido
         $obj = array();
         $obj = (object) $obj;
         $obj->pesquisa = $pesquisa;
         $obj->ensino = $ensino;
         $obj->extensao = $extensao;
 
-            // verifica depois do loop, se o numero de atividades é suficiente 
-        if (($pesquisa >= 100) && ($ensino >= 100) && ($extensao >= 100)) {
-          if ($flag == true) {
-                    // alert verde
-            $obj->id = 1;
-            $obj->aviso = " Pedido Verificado.";
-            $data['resumo'] = $obj;
-          } else {
-                    // alert amarelo
-            $obj->id = 2;
-            $obj->aviso = " Pedido não Verificado.";
-            $data['resumo'] = $obj;
-          }
-        } else {
-                // alert vermelho
-          $obj->id = 3;
-          $obj->aviso = " Horas insuficientes.";
-          $data['resumo'] = $obj;
-        }
 
-        $this->navigation['navigation']['gerente'] = 'Gerente';
-        $this->navigation['navigation']['gerente/editar'] = array('name' => 'Editar', 'active' => true);
-        $this->navigation['navigation']['gerente/editar/' . $pedidoId] = $pedidoId;
+        $this->navigation['navigation']['administrador'] = 'Administrador';
+        $this->navigation['navigation']['administrador/editar'] = array('name' => 'Editar', 'active' => true);
+        $this->navigation['navigation']['administrador/editar/' . $usuarioId] = $usuarioId;
 
         $this->load->view('include/header', $data);
         $this->load->view('include/navigation', $this->navigation);
-        $this->load->view('gerente/gerenteView', $data);
+        $this->load->view('administrador/administradorEditarView', $data);
         $this->load->view('include/footer');
       } else {
         redirect('login', 'refresh');
