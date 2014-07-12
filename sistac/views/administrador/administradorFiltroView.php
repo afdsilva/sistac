@@ -53,6 +53,7 @@
       })
 
       function editar() {
+        alert("teste");
         var $selectedRows = $('#usuarios').jtable('selectedRows');
         switch ($selectedRows.length) {
           case 0:
@@ -74,7 +75,7 @@
       }
 
       function getOnClick($value) {
-        location.href = 'administrador/editar/' + $value.id;
+        location.href = 'administrador/editar/' + $value.cpf;
       }
       function remover() {
 
