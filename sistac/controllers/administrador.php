@@ -77,15 +77,23 @@ class Administrador extends CI_Controller {
     }
   }
 
-  function salvar($tipo){ //tipo: 0 para cadastro; 1 para editar
+  function salvar(){ //opcao: 0 para cadastrar; 1 para editar
+    echo("foi");
     $usuario['nome'] = $_POST['nome'];
     $usuario['cpf'] = $_POST['cpf'];
     $usuario['curso'] = $_POST['curso'];
     $usuario['email'] = $_POST['email'];
-    $usuario['senha'] = $_POST['senha'];
     $usuario['codTipoUsuario'] = $_POST['codTipoUsuario'];
+    //if($opcao==0){
+        $usuario['senha'] = $_POST['senha'];
+        
+        $ret=true; //teste
+        //$ret = $this->usuarioModel->inserir($usuario);
+    //}
+    //else{
+        //$ret = $this->usuarioModel->update($usuario);
 
-    $ret = $this->usuarioModel->inserir($usuario);
+    //}
 
     if($ret == true){
       echo 'sucesso';

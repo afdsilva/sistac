@@ -67,7 +67,12 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success" onclick="enviar()">Salvar</button>
+                <hr>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-success pull-right" onclick="enviar()">Salvar</button>
+                    </div>
+                </div>                
                 </div>
             </form>
         </div>
@@ -91,7 +96,7 @@
 
 
     function enviar() {
-        $.post('<?= base_url() ?>administrador/salvar',
+        $.post('salvar',
                 {
                     nome: $("#txtNome").val(),
                     cpf: $("#txtCPF").val(),
@@ -100,15 +105,14 @@
                     email: $("#txtEmail").val(),
                     senha: $("#txtSenha").val()
                 },
-        function(data) {
-            if (data == 'sucesso') {
-                alert("Cadastro feito com sucesso!");
-                window.location.href = "<?= base_url() . 'login/'; ?>"
-            } else {
-                alert("Houve uma falha, tente novamente");
-            }
-        });        alert("opa");
-
-
+                function(data) {
+                    if (data === 'sucesso') {
+                        $('#sucesso').modal('show');
+                    } 
+                    else {
+                        $('#falha').modal('show');
+                    }
+                }
+        );
     }
 </script>

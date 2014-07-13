@@ -84,7 +84,7 @@
 
     function enviar() {
 
-        $.post('<?= base_url() ?>administrador/salvar',
+        $.post('<?= base_url() ?>administrador/salvar/1',
                 {
                     nome: $("#txtNome").val(),
                     cpf: $("#txtCPF").val(),
