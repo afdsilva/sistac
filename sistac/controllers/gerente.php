@@ -18,6 +18,7 @@ class Gerente extends CI_Controller {
     $this->load->model('categoriaModel');
     $this->load->model('tipoAtividadeModel');
     $this->load->model('unidadeModel');
+    $this->load->model('usuarioModel');
   }
 
   function index() {
@@ -218,5 +219,45 @@ class Gerente extends CI_Controller {
     	$data = file_get_contents($arquivo);
     	force_download($result->descricao.".".$info['extension'], $data);
     }
+    
+    function notificarAluno($pedidoId){
+        
+        if($this->session->userdata('user') && $this->session->userdata('user')->codTipoUsuario == 2){
+            
+            $this->navigation['navigation']['gerente'] = 'Gerente';
+            $this->navigation['navigation']['gerente/editar'] = array('name' => 'Notificar Aluno', 'active' => true);
+            $this->navigation['navigation']['gerente/editar/' . $pedidoId] = $pedidoId;
+            
+            $data['logged'] = true;
+            $alunoCPF = $this->pedidoModel->getPedidoById($pedidoId)->codUsuario;
+            $data['aluno'] = $this->usuarioModel->getUsuarioByCPF($alunoCPF);
+            
+            $this->load->view('include/header', $data);
+            $this->load->view('include/navigation', $this->navigation);
+            $this->load->view('gerente/notificarAlunoView', $data);
+            $this->load->view('include/footer');
+        } else {
+            redirect('login', 'refresh');
+        }
+    }
+    
+    function enviarEmail(){
+        
+        $data['nome'] = $_POST['nome'];
+        $data['email'] = $_POST['email'];
+        $data['mensagem'] = $_POST['mensagem'];
+        
+        $this->load->library('email');
 
+        $this->email->from('andreguipeil@gmail.com', 'Gerente');
+        $this->email->to($data['email']);
+
+        $this->email->subject('Notificação Aluno');
+        $this->email->message($data['mensagem']);	
+
+        $this->email->send();
+
+        echo $this->email->print_debugger();
+        
+    }
   }

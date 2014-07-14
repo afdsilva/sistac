@@ -45,7 +45,7 @@
             </div>
             <div class="row"></div>
             <div class="form-group row col-sm-12">
-                <button class="btn btn-primary col-sm-2  pull-right">Notificar Aluno</button>
+                <button class="btn btn-primary col-sm-2  pull-right" onclick="notificarAluno()">Notificar Aluno</button>
             </div>
 
         </div>
@@ -243,4 +243,14 @@
         function visualizarCertificado(){
             window.open("<?php echo base_url() . 'gerente/visualizarCertificado/'; ?>"+ $('#pedidoId').val() +'/'+ $('#certificado').val());  
         }
+        
+        function notificarAluno(){
+            
+            var id = $('#pedidoId').val();
+            location.href = '../notificarAluno/' +id;
+            
+        }
+            
+            
+        
     </script>
