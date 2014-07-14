@@ -53,7 +53,8 @@
   <div class="row nameless form-btn-label" id="envioCertificado">
     <?php
 			$attributes = array('class' => 'form-horizontal', 'role' => 'form');
-			$onChange = "$('#inputDescricao').val(this.value.substr(0, this.value.lastIndexOf('.')))";
+			//chrome dah problema
+			$onChange = "$('#inputDescricao').val(this.value.substring(this.value.lastIndexOf('\\\')+1, this.value.lastIndexOf('.')))";
 			echo form_open_multipart('aluno/inserirCertificado/' . $aluno->cpf, $attributes);
 			echo form_label('Enviar certificado', 'inputDescricao');
 		?>
