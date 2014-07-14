@@ -150,25 +150,26 @@
         var $selectedRows = $('#pedidos').jtable('selectedRows');
         var record = new Array()
         var i = 0;
-        
-        $selectedRows.each(function() {
-            record[i] = $(this).data('record');
-            console.log(record[i]);
-            i++;    
-        });
-        
-        $.post(<?php base_url(); ?>'relatorio/gerarRelatorio',
-            { pedidos: record,
-              size: i,
-              ano:$("#rptAno").val(),
-              semestre: $("#rptSemestre").val(),
-              curso: $("#coordenadorCurso").val()
-            },
-            function(data) {
-                if (data == 'sucesso') {   
-                } else {
-                }
+        if($selectedRows.length > 0){
+            $selectedRows.each(function() {
+                record[i] = $(this).data('record');
+                console.log(record[i]);
+                i++;    
             });
+
+            $.post(<?php base_url(); ?>'relatorio/coordenador',
+                { pedidos: record,
+                  size: i,
+                  ano:$("#rptAno").val(),
+                  semestre: $("#rptSemestre").val(),
+                  curso: $("#coordenadorCurso").val()
+                },
+                function(data) {
+                    if (data == 'sucesso') {   
+                    } else {
+                    }
+                });
+        }
     }
 
 </script>

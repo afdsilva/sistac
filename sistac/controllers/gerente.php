@@ -10,6 +10,7 @@ class Gerente extends CI_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->model('gerenteModel');
+    $this->load->model('alunoModel');
     $this->load->model('cursoModel');
     $this->load->model('statusModel');
     $this->load->model('pedidoModel');
@@ -201,6 +202,21 @@ class Gerente extends CI_Controller {
       } else {
         echo 'falha';
       }
+    }
+    
+    function visualizarCertificado($pedidoId, $certificadoId){
+        
+        $alunoId = $this->pedidoModel->getPedidoById($pedidoId)->codUsuario;
+        
+        log_message('error', $alunoId);
+        
+	//baixa um certificado vinculado a um aluno
+    	$this->load->helper('download');
+    	$result = $this->alunoModel->getCertificado($alunoId, $certificadoId);
+    	$arquivo = 'arquivos/' . $result->arquivo;
+    	$info = pathinfo($arquivo);
+    	$data = file_get_contents($arquivo);
+    	force_download($result->descricao.".".$info['extension'], $data);
     }
 
   }

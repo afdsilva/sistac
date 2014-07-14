@@ -30,9 +30,18 @@ class Aluno extends CI_Controller {
         $this->data['pedido'] = $this->alunoModel->getPedido($this->session->userdata('user')->cpf);
         $idPedido = (isset($this->data['pedido']->id) ? $this->data['pedido']->id : '');
         $this->data['atividades'] = $this->atividadeModel->getAtividades($idPedido);
-		$this->data['horasPesquisa'] = 0;
-		$this->data['horasExtensao'] = 0;
-		$this->data['horasEnsino'] = 0;
+	
+        $categorias = $this->categoriaModel->getCategorias();
+        foreach ($categorias as $ca) {
+
+          if ($ca->id == 1) {
+            $this->data['horasPesquisa'] = $this->calculaHoras($ca->id, $idPedido);
+          } elseif ($ca->id == 2) {
+            $this->data['horasEnsino'] = $this->calculaHoras($ca->id, $idPedido);
+          } elseif ($ca->id == 3) {
+            $this->data['horasExtensao'] = $this->calculaHoras($ca->id, $idPedido);
+          }
+        }
         $this->data['logged'] = true;
         // monta view
         //==============================================================
@@ -193,6 +202,55 @@ class Aluno extends CI_Controller {
     		unlink($arquivo);
     	redirect('/aluno/pedido/', 'refresh');
 	}
+        
+        
+   /**
+     * Calcula as horas da atividades referente as categorias
+     * 
+     * @param type $categoriaId
+     * @param type $pedidoId
+     * @return type
+     */
+    function calculaHoras($categoriaId, $pedidoId) {
 
+        // verifica o tamanho dos tipos de atividade
+      $size = $this->tipoAtividadeModel->getCountTipoAtividades();
+        // zera o vetor de controle
+        // :: O vetor de controle em cada posição contém o somatório de horas
+        //    das atividades que o aluno possui, sendo dividido pelas categorias
+        //    pesquisa ensino e extensão.
+      for ($i = 1; $i <= $size; $i++) {
+        $controle[$i] = 0;
+      }
+
+      $atividades = $this->atividadeModel->refreshAluno($pedidoId)['Records'];
+
+        // percorre todas as atividades
+      foreach ($atividades as $a) {
+            // verifica se a atividade corrente é da categoria analisada.
+            // se sim: contabiliza na posição do tipo atividade
+        if ($a->categoriaId == $categoriaId) {
+          $controle[$a->tipoAtividadeId] += $a->aproveitamento;
+        }
+      }
+
+      $tipoAtividades = $this->tipoAtividadeModel->getTipoAtividades();
+
+      $retorno = 0;
+      foreach ($tipoAtividades as $ta) {
+
+            // verifica se o somatório da posição é maior que máximo de horas
+            // que o aluno tem.
+            // se sim: muda para o maxHoras
+            // se não: deixa como ta
+        if ($controle[$ta->id] > $ta->maxHoras) {
+          $controle[$ta->id] = $ta->maxHoras;
+        }
+
+        $retorno += $controle[$ta->id];
+      }
+      return $retorno;
+    }    
+        
 
 }

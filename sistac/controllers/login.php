@@ -30,7 +30,6 @@ class Login extends CI_Controller {
         $password = $this->input->post('password');
 
         $user = $this->loginModel->validate($username, $password);
-        print_r($user);
         $this->session->set_userdata(array('user' => $user));
       }else{
         redirect('home', 'refresh');

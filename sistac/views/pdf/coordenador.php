@@ -16,9 +16,9 @@ foreach($alunos as $aluno){
 		$aluno['nome'],
 		$aluno['anoSemestre'],
 		$aluno['curso'],
-		$aluno['categoria'][0],
-		$aluno['categoria'][1],
-		$aluno['categoria'][2]
+		$aluno['categoria']['pesquisa'],
+		$aluno['categoria']['ensino'],
+		$aluno['categoria']['extensao']
 	));
 }
 
@@ -27,6 +27,3 @@ echo $this->table->generate();
 
 <?php require_once(dirname(__FILE__) . '/footer.php'); ?>
 
-<?
- 
-?>

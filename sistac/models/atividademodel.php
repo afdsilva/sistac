@@ -129,7 +129,7 @@ class AtividadeModel extends CI_Model {
                     . "a.unidadeAtividade as horas, CASE WHEN a.unidadeAtividade > ta.horas THEN ta.horas ELSE a.unidadeAtividade END as aproveitamento, "
                     . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' END as validaAtividade,"
                     . " ta.id as tipoAtividadeId, "
-                    . "c.id as categoriaId, a.aproveitamento", false);
+                    . "c.id as categoriaId, a.aproveitamento, a.idCertificado as certificado", false);
             $this->db->from('atividade as a');
             $this->db->join('categoria as c', 'c.id = a.codCategoria');
             $this->db->join('tipoAtividade as ta', 'ta.id = a.codTipoAtividade');
@@ -160,7 +160,8 @@ class AtividadeModel extends CI_Model {
                     . "a.unidadeAtividade as horas, CASE WHEN a.unidadeAtividade > ta.horas THEN ta.horas ELSE a.unidadeAtividade END as aproveitamento, "
                     . " CASE WHEN a.validaAtividade = 'S' THEN 'Sim' ELSE 'Não' end as validaAtividade,"
                     . " ta.id as tipoAtividadeId, "
-                    . "c.id as categoriaId", false);
+                    . "c.id as categoriaId,"
+                    . "CASE WHEN a.idCertificado IS NULL THEN -1 ELSE a.idCertificado END as certificado", false);
             $this->db->from('atividade as a');
             $this->db->join('categoria as c', 'c.id = a.codCategoria');
             $this->db->join('tipoAtividade as ta', 'ta.id = a.codTipoAtividade');

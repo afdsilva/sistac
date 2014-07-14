@@ -76,6 +76,7 @@
         <div class="panel-body">
             <form id="formEditarAtividade">
                 <input type="hidden" class="form-control" id="id" value="">
+                <input type="hidden" class="form-control" id="certificado" value="<?php echo @$certificado; ?>">
                 <input type="hidden" class="form-control" id="pedidoId" value="<?php echo $pedidoId; ?>">
                 <input type="hidden" class="form-control" id="aproveitamento" value="">
                 <div class="form-group">
@@ -123,16 +124,11 @@
                         <input type="text" class="form-control" id="unidadeAtividade" placeholder="">
                     </div>
                 </div>
-                <div class="form-group" style="padding-top:10px">
-                    <label for="certificado" class="col-sm-2 control-label">Certificado</label>
-                    <div class="col-sm-3">
-                        <?php
-                        if (@$atividade->arquivoURL != NULL) {
-                            echo '<button type="button" class="btn btn-primary" id="certificado" placeholder="">Visualizar</button>';
-                        }
-                        ?>
-                    </div>
+                
+                <div class="form-group" style="padding-top:10px" id="btnCertificado">
+                    <button class="btn btn-default col-sm-2" onclick="visualizarCertificado()" > Certificado </button>
                 </div>
+
                 <hr>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -201,15 +197,26 @@
         }
 
         function getOnClick($value) {
-            console.log($value);
+            
             document.getElementById("id").value = $value.id;
             document.getElementById("pedidoId").value = $value.pedidoId;
             document.getElementById("descricao").value = $value.descricao;
             document.getElementById("unidadeAtividade").value = $value.horas;
-            document.getElementById("aproveitamento").value = $value.aproveitamento;    
+            document.getElementById("aproveitamento").value = $value.aproveitamento;
+            document.getElementById("certificado").value = $value.certificado;
+            
             $('#categoria').val($value.categoriaId).change();
             $('#tipoAtividade').val($value.tipoAtividadeId).change();
-            $('#validaAtividade').val($value.validaAtividade).change();  
+            $('#validaAtividade').val($value.validaAtividade).change();
+            
+            if($("#certificado").val() == -1){
+                $('#btnCertificado').hide();
+            } else {
+                $('#btnCertificado').show();
+                
+            }
+            
+            
         }
 
         function salvar() {
@@ -231,7 +238,9 @@
                     $('#falha').modal('show');
                 }
             });
-
-
+        }
+        
+        function visualizarCertificado(){
+            window.open("<?php echo base_url() . 'gerente/visualizarCertificado/'; ?>"+ $('#pedidoId').val() +'/'+ $('#certificado').val());  
         }
     </script>

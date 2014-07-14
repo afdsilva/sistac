@@ -10,7 +10,7 @@
 			<!-- Carousel items -->
 			<div class="carousel-inner">
 				<div class="active item" style="text-align: center;">
-					<img src="<?= base_url() ?>static/img/carousel/carousel01.jpg" > 
+					<img src="<?= base_url() ?>static/img/carousel/carousel04.jpg" > 
 					<div class="carousel-caption">
 						<h4>SISTAC</h4>
 						<p>Sistema de Atividades Complementares</p>
