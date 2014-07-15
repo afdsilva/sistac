@@ -79,7 +79,7 @@
 
 
 
-    <?php echo jTableStart('pedidos', 'Pedidos', 'gerente/listaPedidos', '', '', '', array('selecting', 'multiselect', 'selectingCheckboxes')) ?>
+    <?php echo jTableStart('pedidos', 'Pedidos', 'gerente/listaPedidos', '', '', '', array('selecting',  'paging', 'sorting')) ?>
     <?php echo jPanelAddID(true, false, false, false) ?>
     <?php echo jPanelAddCampo('nome', 'Nome', '', '30%', true, false, true) ?>
     <?php echo jPanelAddCampo('curso', 'Curso', '', '25%', true, false, true) ?>

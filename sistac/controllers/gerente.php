@@ -24,14 +24,15 @@ class Gerente extends CI_Controller {
   function index() {
     if($this->session->userdata('user') && $this->session->userdata('user')->codTipoUsuario == 2){
 
-      $data['logged'] = true;
+      $data['logged'] = $dataHeader['logged'] = true;
       $data['pedidos'] = $this->pedidoModel->getPedidos($_POST, $_GET);
       $data['cursos'] = $this->cursoModel->getCursos();
       $data['status'] = $this->statusModel->getStatus();
+      $dataHeader['tipoUsuario'] = $this->session->userdata('user')->codTipoUsuario;
 
       $this->navigation['navigation']['gerente'] = 'Gerente';
 
-      $this->load->view('include/header', $data);
+      $this->load->view('include/header', $dataHeader);
       $this->load->view('include/navigation', $this->navigation);
       $this->load->view('gerente/gerenteFiltroView', $data);
       $this->load->view('include/footer');
@@ -161,8 +162,11 @@ class Gerente extends CI_Controller {
         $this->navigation['navigation']['gerente'] = 'Gerente';
         $this->navigation['navigation']['gerente/editar'] = array('name' => 'Editar', 'active' => true);
         $this->navigation['navigation']['gerente/editar/' . $pedidoId] = $pedidoId;
-
-        $this->load->view('include/header', $data);
+        
+        $dataHeader['logged'] = true;
+        $dataHeader['tipoUsuario'] = $this->session->userdata('user')->codTipoUsuario;
+        
+        $this->load->view('include/header', $dataHeader);
         $this->load->view('include/navigation', $this->navigation);
         $this->load->view('gerente/gerenteView', $data);
         $this->load->view('include/footer');

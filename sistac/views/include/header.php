@@ -32,9 +32,25 @@
             <li>
               <a href="<?= base_url() ?>" class="glyphicon glyphicon-question-sign">&nbsp;Ajuda</a>
             </li>
-            <li>
-              <a href="<?= base_url() ?>home" class="glyphicon glyphicon-home">&nbsp;Home</a>
-            </li>
+            <?php
+            
+            switch($tipoUsuario){
+                case 1:
+                    echo '<li><a href="administrador" class="glyphicon glyphicon-home">&nbsp;Home</a></li>';
+                    break;
+                case 2:
+                    echo '<li><a href="gerente" class="glyphicon glyphicon-home">&nbsp;Home</a></li>';
+                    break;
+                case 3:
+                    echo '<li><a href="coordenador" class="glyphicon glyphicon-home">&nbsp;Home</a></li>';
+                    break;
+                case 4:
+                    echo '<li><a href="aluno" class="glyphicon glyphicon-home">&nbsp;Home</a></li>';
+                    break;
+                default:
+                    echo '<li><a href="home" class="glyphicon glyphicon-home">&nbsp;Home</a></li>';
+            }
+            ?>
           <?php else: ?>
             <li>
               <a class="glyphicon glyphicon-user" href="<?= base_url() ?>cadastrar">&nbsp;Cadastrar</a>
