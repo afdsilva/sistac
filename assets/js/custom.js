@@ -1,10 +1,10 @@
 function containerSize(){
 	var $window 			= $(window),
-			$container 		= $('#container'),
-			$footer 			= $('#footer'),
-			windowSize 		= $window.height(),
-			containerSize = 0,
-			gap		 				= 0;
+	$container 		= $('#container'),
+	$footer 			= $('#footer'),
+	windowSize 		= $window.height(),
+	containerSize = 0,
+	gap		 				= 0;
 
 	$container.css('padding-top', gap + 'px');
 	$footer.css('margin-top', gap + 'px');
@@ -34,14 +34,28 @@ $(document).ready(function(){
 	});
 
 	$('#carousel').carousel({
-      interval: 2000
-  });
+		interval: 2000
+	});
 
-  $('#goToTop').click(function(){
-  	scrollTo(0);
-  });
+	$('#goToTop').click(function(){
+		scrollTo(0);
+	});
 
-  $('#pedidos, #atividades').jtable('load', undefined, function(){
-    containerSize();
-  });
+	$('#pedidos, #atividades').jtable('load', undefined, function(){
+		containerSize();
+	});
+
+	$('.ano').each(function(){
+		for(var i = 2014; i <= (new Date()).getFullYear(); i++){
+			$(this).append('<option value="' + i + '"> ' + i + ' </option>');
+		}
+	});
+
+	$("#relatorio").submit(function(event){
+		if(!$('#relatorioAno').val() || !$('#relatorioSemestre').val()){
+			event.preventDefault();
+		}
+
+		return true;
+	});
 });

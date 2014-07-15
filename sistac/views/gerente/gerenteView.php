@@ -51,6 +51,12 @@
         </div>
     </div>
 
+    <!-- 
+    
+        TABELA DE ATIVIDADES
+    ==============================================================
+    --> 
+
     <?php echo jTableStart('atividades', 'Lista de Atividades', '../listaAtividades/' . $pedidoId, '', '', '', array('selecting', 'paging', 'sorting')) ?>
     <?php echo jPanelAddID(true, false, false, false) ?>
     <?php echo jPanelAddCampo('descricao', 'Descrição', '', '40%', true, false, true) ?>
@@ -138,7 +144,13 @@
             </form>
         </div>
     </div>
-   
+
+    <!-- 
+    
+        Alertas Personalizados
+    ==============================================================
+    -->     
+    
     <div class="modal fade" id="sucesso" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">

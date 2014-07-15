@@ -54,7 +54,9 @@
 			<p>SISTAC <span>SISTEMA DE ATIVIDADES COMPLEMENTARES</span></p>
 		</header>
 		<p class="content-text">
-			Descricao do sistema, como funciona e tudo mais....<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam elit nisl, rutrum ut metus eu, dapibus cursus turpis. Fusce eget lacus vulputate, vestibulum quam ac, rutrum est. Integer justo lectus, luctus et varius sed, sollicitudin a dolor. Aliquam interdum, elit quis ultrices vestibulum, sem nulla euismod risus, et scelerisque nulla leo a risus. Quisque ac facilisis massa. Suspendisse sodales sollicitudin nisl, a volutpat dui sollicitudin a. Mauris id commodo eros. Fusce eget mattis felis, sed scelerisque nisi. Phasellus viverra velit in ligula laoreet lobortis. Nulla et vehicula arcu. Nunc mattis sed libero lobortis dignissim. Pellentesque vel libero imperdiet, sollicitudin nunc non, ornare felis. Vestibulum nec ullamcorper tortor, nec accumsan dui.<br><br>Aliquam erat enim, tristique vel lectus in, vulputate tristique tellus. Maecenas vitae sapien sit amet dui cursus rhoncus placerat vel urna. Mauris id elit rhoncus, posuere mi et, gravida velit. Phasellus rhoncus tellus sapien, in ullamcorper enim blandit in. Phasellus semper pellentesque diam ut varius. 
+			O Sistac é um sistema que tem como objetivo auxiliar alunos e professores no cálculo das atividades complementares, requisito necessário para a conclusão do curso. Ele é composto por dois módulos, Desktop e Web, que complementam-se e tem as seguintes características principais:
+                        <br><br>
+                         
 		</p>
 	</section>
 

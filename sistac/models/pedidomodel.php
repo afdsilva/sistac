@@ -35,9 +35,17 @@ class PedidoModel extends CI_Model {
                 where('p.id', $idPedido);
         return $this->db->get()->row();
     }
-
+    
+    function getTotalPedidos(){
+       $retorno =  $this->db->get('pedido');
+        return $retorno->num_rows();
+    }
+    
+    
     function getPedidos($parametros, $get) {
-
+        
+        $data['TotalRecordCount'] = $this->getTotalPedidos();
+        $this->db->trans_start();
         $this->db->select("p.id, u.nome as nome, c.nome as curso, concat(p.ano,'/',p.semestre) as anoSemestre, s.nome as status, p.codStatus", false);
         $this->db->from('pedido as p');
         $this->db->join('usuario as u', 'u.cpf = p.codUsuario');
@@ -63,13 +71,13 @@ class PedidoModel extends CI_Model {
 
         
           if (!empty($get['jtSorting'])) {
-          $pieces = explode(" ", @$get['jtSorting']);
-          $this->db->order_by($pieces[0], $pieces[1]);
-          }
+                $pieces = explode(" ", @$get['jtSorting']);
+                $this->db->order_by($pieces[0],$pieces[1]);
+            }
 
-          if (@$get['jtStartIndex'] != '' && @$get['jtPageSize'] != '') {
-          $this->db->limit($get['jtStartIndex'] + ',' + $get['jtPageSize']);
-          }
+            if (@$get['jtStartIndex'] !== '' && @$get['jtPageSize'] !== '') {
+                $this->db->limit(@$get['jtPageSize'],@$get['jtStartIndex']);
+            }
          
         $data['Records'] = $this->db->get()->result();
         $this->db->trans_complete();

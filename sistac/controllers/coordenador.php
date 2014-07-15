@@ -19,13 +19,14 @@ class Coordenador extends CI_Controller {
         if ($this->session->userdata('user') && $this->session->userdata('user')->codTipoUsuario == 3) {
             
             $data['coordenadorCurso'] = $this->session->userdata('user')->codCurso;
-            $data['logged'] = true;
+            $data['logged'] = $dataHeader['logged'] = true;
+            $dataHeader['tipoUsuario'] = $this->session->userdata('user')->codTipoUsuario;
             $data['status'] = $this->statusModel->getStatus();
             $data['resumo'] = $this->calculaAlunos();
 
             $this->navigation['navigation']['coordenador'] = 'Coordenador';
 
-            $this->load->view('include/header', $data);
+            $this->load->view('include/header', $dataHeader);
             $this->load->view('include/navigation', $this->navigation);
             $this->load->view('coordenador/coordenadorView', $data);
             $this->load->view('include/footer');

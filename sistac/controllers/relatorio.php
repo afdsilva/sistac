@@ -1,32 +1,32 @@
 <?php
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+  exit('No direct script access allowed');
 
 class Relatorio extends CI_Controller {
 
-    public function __construct() {
-        parent::__construct();
+  public function __construct() {
+    parent::__construct();
 
-        $this->load->model('coordenadorModel');
-        $this->load->model('statusModel');
-        $this->load->model('pedidoModel');
-        $this->load->model('tipoAtividadeModel');
-        $this->load->model('atividadeModel');
-        $this->load->model('categoriaModel');
-        
-        $this->load->model('cursoModel');
-    }
+    $this->load->model('coordenadorModel');
+    $this->load->model('statusModel');
+    $this->load->model('pedidoModel');
+    $this->load->model('tipoAtividadeModel');
+    $this->load->model('atividadeModel');
+    $this->load->model('categoriaModel');
 
-    function index() {
-        redirect('home', 'refresh');
-    }
+    $this->load->model('cursoModel');
+  }
 
-    function gerente() {
-        
-    }
-    
-    
+  function index() {
+    redirect('home', 'refresh');
+  }
+
+  function gerente() {
+
+  }
+
+
     /**
      * Calcula as horas da atividades referente as categorias
      * 
@@ -74,54 +74,48 @@ class Relatorio extends CI_Controller {
       }
       return $retorno;
     }
-             
+
     function coordenador() {
-        
-        $alunos = array();
-        $pedidos = array();
-        $pedidos = $_POST['pedidos'];
+      $alunos = array();
 
-        $info = array();
-        $info = (object) $info;
-        $size = $_POST['size'];
-        $info->curso = $_POST['curso'];
-        $info->ano = $_POST['ano'];
-        $info->semestre = $_POST['semestre'];
-        
-        foreach($pedidos as $p){
-            $aluno = array();
-            $aluno = (object) $aluno;
-            $categorias = $this->categoriaModel->getCategorias();
-            $aluno->id = $p['id'];
-            $aluno->nome = $p['nome'];
-            $aluno->anoSemestre = $p['anoSemestre'];
-            $aluno->curso = $p['curso'];
-            
-            foreach ($categorias as $ca) {
+      $info = array(
+        "curso" => $_POST['curso'],
+        "ano" => $_POST['ano'],
+        "semestre" => $_POST['semestre'],
+        "status" => "3"
+      );
 
-                if ($ca->id == 1) {
-                    $aluno->pesquisa = $this->calculaHoras($ca->id, $aluno->id);
-                } elseif ($ca->id == 2) {
-                    $aluno->ensino = $this->calculaHoras($ca->id, $aluno->id);
-                } elseif ($ca->id == 3) {
-                    $aluno->extensao = $this->calculaHoras($ca->id, $aluno->id);
-                }
-            }
-            array_push($alunos, $aluno);
-            $aluno = NULL;
-        }
-        
-        $data['ano'] = $info->ano;
-        $data['semestre'] = $info->semestre;
-        $data['curso'] = $this->cursoModel->getCurso($info->curso)->nome;        
-        $data['alunos'] = $alunos;
-        
-        $this->load->library('pdf');
-        $this->pdf->load_view('pdf/coordenador', $data);
-        $this->pdf->render();
-        $this->pdf->stream('relatorio-coordenador-' . date('d.m.Y') . '.pdf');
+      foreach($this->pedidoModel->getPedidos($info, $_GET)["Records"] as $pedido){
+        $aluno = array();
+
+        $aluno['id'] = $pedido->id;
+        $aluno['nome'] = $pedido->nome;
+        $aluno['anoSemestre'] = $pedido->anoSemestre;
+        $aluno['curso'] = $pedido->curso;
+        $aluno['categoria'] = array(
+          'pesquisa' => $this->calculaHoras(1, $pedido->id),
+          'ensino' => $this->calculaHoras(2, $pedido->id),
+          'extensao' => $this->calculaHoras(3, $pedido->id)
+        );
+
+        array_push($alunos, $aluno);
+
+        $aluno = NULL;
+      }
+
+      $data['ano'] = $info['ano'];
+      $data['semestre'] = $info['semestre'];
+      $data['curso'] = $this->cursoModel->getCurso($info['curso'])->nome;
+
+      $data['alunos'] = $alunos;
+
+      $this->load->library('pdf');
+      // $this->load->view('pdf/coordenador', $data);
+      $this->pdf->load_view('pdf/coordenador', $data);
+      $this->pdf->render();
+      $this->pdf->stream('relatorio-coordenador-' . date('d.m.Y') . '.pdf');
     }
 
-}
+  }
 
-?>
+  ?>

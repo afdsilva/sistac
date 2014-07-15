@@ -10,10 +10,22 @@ class Home extends CI_Controller {
     }
 
     function index() {
-        $this->load->view('include/header');
-        $this->load->view('homeView');
-        $this->load->view('include/footer');
-    }
+
+        if($this->session->userdata('user')){
+            $data['logged'] = true;
+            $data['tipoUsuario'] = $this->session->userdata('user')->codTipoUsuario;
+            $this->load->view('include/header', $data);
+            $this->load->view('homeView');
+            $this->load->view('include/footer');
+        } else {
+            $this->load->view('include/header');
+            $this->load->view('homeView');
+            $this->load->view('include/footer');
+        
+            
+        }
+        
+        }
     
     function equipe(){
         
