@@ -21,7 +21,7 @@ class Administrador extends CI_Controller {
       $data['usuarios'] = $this->usuarioModel->getUsuarios($_POST,$_GET);
       $data['tipoUsuario'] = $this->TipoUsuarioModel->getTipoUsuarios($_POST,$_GET);
 
-      $this->data['logged'] = true;
+      $data['logged'] = true;
 
       $this->navigation['navigation']['administrador'] = 'Administrador';
 
