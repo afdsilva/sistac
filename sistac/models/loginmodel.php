@@ -7,7 +7,7 @@ class LoginModel extends CI_Model {
     }
 
     public function validate($user, $pass) {
-        $this->db->select('cpf, nome, codTipoUsuario, codCurso');
+        $this->db->select('cpf, nome, codTipoUsuario, codCurso, email');
         $this->db->from('usuario');
         $this->db->where('email', $user);
         $this->db->where('senha', md5($pass));

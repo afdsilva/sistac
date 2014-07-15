@@ -242,22 +242,31 @@ class Gerente extends CI_Controller {
     }
     
     function enviarEmail(){
-        
-        $data['nome'] = $_POST['nome'];
-        $data['email'] = $_POST['email'];
-        $data['mensagem'] = $_POST['mensagem'];
-        
-        $this->load->library('email');
+		$config = Array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.googlemail.com',
+			'smtp_port' => 465,
+			'smtp_user' => 'sistacufpel@gmail.com',
+			'smtp_pass' => 'YaMACHYa',
+			'mailtype' => 'html',
+			'charset' => 'UTF-8',
+			'wordwrap' => TRUE
+		);
 
-        $this->email->from('andreguipeil@gmail.com', 'Gerente');
-        $this->email->to($data['email']);
-
-        $this->email->subject('Notificação Aluno');
-        $this->email->message($data['mensagem']);	
-
-        $this->email->send();
-
-        echo $this->email->print_debugger();
-        
-    }
-  }
+		$message = $this->input->post()['mensagem'];
+		$destinatario = $this->input->post()['email'];
+		$remetente = $this->session->userdata('user')->email;
+		
+		$this->load->library('email', $config);
+		$this->email->set_newline("\r\n");
+		$this->email->from($remetente);
+		$this->email->to($destinatario);
+		$this->email->subject('Notificação SISTAC');
+		$this->email->message($message);
+		if($this->email->send()) {
+			echo 'sucess';
+		} else {
+			show_error($this->email->print_debugger());
+		}
+	}
+}
